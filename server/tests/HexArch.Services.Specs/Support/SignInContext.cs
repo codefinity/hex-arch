@@ -10,10 +10,12 @@ namespace HexArch.Services.Specs.Support
         public InMemoryUserRepository Users { get; } = new();
         public FakePasswordHasher Hasher { get; } = new();
         public FakeJwtTokenGenerator TokenGenerator { get; } = new();
+        public FixedSystemClock Clock { get; } = new();
+        public RecordingEventDispatcher Events { get; } = new();
 
         public SignInResult? Result { get; set; }
 
         public ISignInCommandHandler Handler => new SignInCommandHandler(
-            new SignInCommandValidator(), Users.Object, Hasher.Object, TokenGenerator.Object);
+            new SignInCommandValidator(), Users.Object, Hasher.Object, TokenGenerator.Object, Clock.Object, Events.Object);
     }
 }

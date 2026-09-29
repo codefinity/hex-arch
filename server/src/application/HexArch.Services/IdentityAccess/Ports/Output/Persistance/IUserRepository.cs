@@ -1,4 +1,4 @@
-﻿using HexArch.Models.IdentityAccess;
+using HexArch.Models.IdentityAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +13,7 @@ namespace HexArch.Services.IdentityAccess.Ports.Output.Persistance
         public Task UpdateUser(User user);
         public Task<User?> GetUser(string email);
         public Task<User?> GetUser(Guid id);
+        public Task<int> CountActiveUsersInRole(string roleName);
 
     }
 }

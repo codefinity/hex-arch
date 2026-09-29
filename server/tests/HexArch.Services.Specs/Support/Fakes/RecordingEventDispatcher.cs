@@ -14,18 +14,30 @@ namespace HexArch.Services.Specs.Support.Fakes
         {
             // IEventDispatcher.Dispatch<TEvent> is generic, so each event type the use cases
             // dispatch needs its own closed Setup.
-            mock.Setup(dispatcher => dispatcher.Dispatch(It.IsAny<UserRegistered>(), It.IsAny<CancellationToken>()))
-                .Callback<UserRegistered, CancellationToken>((domainEvent, _) => published.Add(domainEvent))
-                .Returns(Task.CompletedTask);
-
-            mock.Setup(dispatcher => dispatcher.Dispatch(It.IsAny<UserProfileUpdated>(), It.IsAny<CancellationToken>()))
-                .Callback<UserProfileUpdated, CancellationToken>((domainEvent, _) => published.Add(domainEvent))
-                .Returns(Task.CompletedTask);
+            Record<UserRegistered>();
+            Record<UserProfileUpdated>();
+            Record<UserDeactivated>();
+            Record<UserReactivated>();
+            Record<UserRolesChanged>();
+            Record<UserSessionsRevoked>();
+            Record<UserAccountDetailsUpdated>();
+            Record<UserPasswordChanged>();
+            Record<UserEmailVerified>();
+            Record<UserLockedOut>();
+            Record<UserAccountClosed>();
+            Record<SellerApplicationSubmitted>();
+            Record<SellerApplicationApproved>();
+            Record<SellerApplicationRejected>();
         }
 
         public IEventDispatcher Object => mock.Object;
         public IReadOnlyList<IDomainEvent> Published => published;
 
         public TEvent Single<TEvent>() where TEvent : IDomainEvent => published.OfType<TEvent>().Single();
+
+        private void Record<TEvent>() where TEvent : IDomainEvent =>
+            mock.Setup(dispatcher => dispatcher.Dispatch(It.IsAny<TEvent>(), It.IsAny<CancellationToken>()))
+                .Callback<TEvent, CancellationToken>((domainEvent, _) => published.Add(domainEvent))
+                .Returns(Task.CompletedTask);
     }
 }

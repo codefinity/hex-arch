@@ -14,6 +14,7 @@ namespace HexArch.Persistance.Postgres
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<IProfileRepository, ProfileRepository>();
+            services.AddScoped<ISellerApplicationRepository, SellerApplicationRepository>();
 
             return services;
         }

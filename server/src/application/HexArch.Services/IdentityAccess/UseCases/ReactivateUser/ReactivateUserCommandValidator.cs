@@ -1,0 +1,23 @@
+using FluentValidation;
+using HexArch.Services.IdentityAccess.Ports.Input.Commands.ReactivateUser;
+
+namespace HexArch.Services.IdentityAccess.UseCases.ReactivateUser
+{
+    public class ReactivateUserCommandValidator : AbstractValidator<ReactivateUserCommand>
+    {
+        public ReactivateUserCommandValidator()
+        {
+            RuleFor(command => command.UserId)
+                .Cascade(CascadeMode.Stop)
+                .NotEmpty()
+                .WithMessage("UserId is required.");
+
+            RuleFor(command => command.Reason)
+                .Cascade(CascadeMode.Stop)
+                .NotEmpty()
+                .WithMessage("Reason is required.")
+                .MaximumLength(200)
+                .WithMessage("Reason must not exceed 200 characters.");
+        }
+    }
+}

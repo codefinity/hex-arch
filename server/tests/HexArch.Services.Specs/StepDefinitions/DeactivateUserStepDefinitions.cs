@@ -1,3 +1,5 @@
+using System.Globalization;
+using HexArch.Events.IdentityAccess;
 using HexArch.Services.IdentityAccess.Ports.Input.Commands.DeactivateUser;
 using HexArch.Services.Specs.Support;
 using Reqnroll;
@@ -10,12 +12,17 @@ namespace HexArch.Services.Specs.StepDefinitions
     {
         private readonly DeactivationContext context;
         private Guid userId;
+        private Guid originalSecurityStamp;
         private int userCountBeforeAttempt;
 
         public DeactivateUserStepDefinitions(DeactivationContext context)
         {
             this.context = context;
         }
+
+        [Given(@"the deactivation clock is fixed at ""(.*)""")]
+        public void GivenTheDeactivationClockIsFixedAt(string utcTimestamp) =>
+            context.Clock.UtcNow = ParseUtc(utcTimestamp);
 
         [Given(@"the account ""(.*)"" is currently active")]
         public void GivenTheAccountIsCurrentlyActive(string email) => SeedAccount(email, active: true);
@@ -33,6 +40,10 @@ namespace HexArch.Services.Specs.StepDefinitions
             var command = new DeactivateUserCommand(userId, reason);
             context.Result = await context.Handler.Handle(command, CancellationToken.None);
         }
+
+        [When(@"the account is deactivated with a reason of (\d+) characters")]
+        public Task WhenTheAccountIsDeactivatedWithAReasonOfCharacters(int length) =>
+            WhenTheAccountIsDeactivatedWithReason(new string('a', length));
 
         [Then(@"the deactivation succeeds")]
         public void ThenTheDeactivationSucceeds()
@@ -57,12 +68,42 @@ namespace HexArch.Services.Specs.StepDefinitions
             user.Active.ShouldBeFalse();
         }
 
+        [Then(@"the account for ""(.*)"" was deactivated for ""(.*)"" on ""(.*)""")]
+        public async Task ThenTheAccountForWasDeactivatedForOn(string email, string reason, string utcTimestamp)
+        {
+            var user = await context.Users.GetUser(email);
+            user.ShouldNotBeNull();
+            user.DeactivationReason.ShouldBe(reason);
+            user.DeactivatedOn.ShouldBe(ParseUtc(utcTimestamp));
+        }
+
+        [Then(@"every existing session for ""(.*)"" has been revoked")]
+        public async Task ThenEveryExistingSessionForHasBeenRevoked(string email)
+        {
+            var user = await context.Users.GetUser(email);
+            user.ShouldNotBeNull();
+            user.SecurityStamp.ShouldNotBe(originalSecurityStamp);
+        }
+
+        [Then(@"a ""UserDeactivated"" event is published with reason ""(.*)""")]
+        public void ThenAUserDeactivatedEventIsPublishedWithReason(string reason)
+        {
+            var published = context.Events.Single<UserDeactivated>();
+            published.UserId.ShouldBe(userId);
+            published.Reason.ShouldBe(reason);
+            published.OccurredOnUtc.ShouldBe(context.Clock.UtcNow);
+        }
+
         [Then(@"no account is stored again")]
         public void ThenNoAccountIsStoredAgain() => context.Users.Users.Count.ShouldBe(userCountBeforeAttempt);
+
+        [Then(@"no deactivation event is published")]
+        public void ThenNoDeactivationEventIsPublished() => context.Events.Published.ShouldBeEmpty();
 
         private void SeedAccount(string email, bool active)
         {
             userId = Guid.NewGuid();
+            originalSecurityStamp = Guid.NewGuid();
             context.Users.Seed(new HexArch.Models.IdentityAccess.User
             {
                 Id = userId,
@@ -73,8 +114,12 @@ namespace HexArch.Services.Specs.StepDefinitions
                 MobileNo = "0000000000",
                 Active = active,
                 RegisteredOn = DateTime.UtcNow,
+                SecurityStamp = originalSecurityStamp,
                 Roles = new List<HexArch.Models.IdentityAccess.Role>()
             });
         }
+
+        private static DateTime ParseUtc(string value) =>
+            DateTime.Parse(value, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal | DateTimeStyles.AssumeUniversal);
     }
 }

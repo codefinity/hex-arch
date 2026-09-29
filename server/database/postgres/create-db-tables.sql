@@ -14,7 +14,19 @@ CREATE TABLE users.users (
   salt VARCHAR(500) NULL,
   mobileno VARCHAR(20) NOT NULL,
   active BOOLEAN NOT NULL,
-  registeredon TIMESTAMP NOT NULL
+  registeredon TIMESTAMP NOT NULL,
+  securitystamp UUID NOT NULL DEFAULT gen_random_uuid(),
+  emailverified BOOLEAN NOT NULL DEFAULT false,
+  pendingemail VARCHAR(50) NULL,
+  emailverificationtokenhash VARCHAR(100) NULL,
+  emailverificationtokenexpireson TIMESTAMP NULL,
+  passwordresettokenhash VARCHAR(100) NULL,
+  passwordresettokenexpireson TIMESTAMP NULL,
+  failedsignincount INTEGER NOT NULL DEFAULT 0,
+  lockedoutuntil TIMESTAMP NULL,
+  deactivationreason VARCHAR(200) NULL,
+  deactivatedon TIMESTAMP NULL,
+  closedon TIMESTAMP NULL
 );
 
 CREATE TABLE users.roles (
@@ -39,7 +51,22 @@ CREATE TABLE users.userroles (
 CREATE INDEX userrole_users_fk ON users.userroles (userid);
 CREATE INDEX userrole_roles_fk ON users.userroles (rolesid);
 
--- Denormalized read model: users + profiles + roles.
+CREATE TABLE users.sellerapplications (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  userid UUID NOT NULL REFERENCES users.users (id),
+  businessname VARCHAR(200) NOT NULL,
+  status VARCHAR(20) NOT NULL,
+  submittedon TIMESTAMP NOT NULL,
+  decidedon TIMESTAMP NULL,
+  decidedby UUID NULL REFERENCES users.users (id),
+  decisionnote VARCHAR(500) NULL
+);
+
+CREATE INDEX sellerapplications_users_fk ON users.sellerapplications (userid);
+-- Backstops ApplyForSellerAccount's "one pending application per user" rule against a race.
+CREATE UNIQUE INDEX sellerapplications_one_pending_per_user ON users.sellerapplications (userid) WHERE status = 'Pending';
+
+-- Denormalized read model: users + profiles + roles + latest seller application.
 -- Written only by viewmodels.refresh_user_viewmodel(); never by the write-side repositories.
 CREATE TABLE viewmodels.userviewmodel (
   userid            UUID PRIMARY KEY REFERENCES users.users (id) ON DELETE CASCADE,
@@ -54,8 +81,17 @@ CREATE TABLE viewmodels.userviewmodel (
   dateofbirth       TIMESTAMP    NULL,
   avatarurl         VARCHAR(500) NULL,
   profileupdatedon  TIMESTAMP    NULL,
-  projectedon       TIMESTAMP    NOT NULL
+  projectedon       TIMESTAMP    NOT NULL,
+  emailverified     BOOLEAN      NOT NULL DEFAULT false,
+  deactivationreason VARCHAR(200) NULL,
+  deactivatedon     TIMESTAMP    NULL,
+  closedon          TIMESTAMP    NULL,
+  sellerapplicationid          UUID         NULL,
+  sellerapplicationstatus      VARCHAR(20)  NULL,
+  businessname                 VARCHAR(200) NULL,
+  sellerapplicationsubmittedon TIMESTAMP    NULL
 );
 
 CREATE INDEX userviewmodel_email_idx ON viewmodels.userviewmodel (email);
 CREATE INDEX userviewmodel_roles_gin ON viewmodels.userviewmodel USING GIN (roles jsonb_path_ops);
+CREATE INDEX userviewmodel_sellerapplicationstatus_idx ON viewmodels.userviewmodel (sellerapplicationstatus);

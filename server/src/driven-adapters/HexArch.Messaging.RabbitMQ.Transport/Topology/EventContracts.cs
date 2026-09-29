@@ -23,7 +23,20 @@ namespace HexArch.Messaging.RabbitMQ.Transport.Topology
         {
             [typeof(UserRegistered)] = "identity-access.user.registered.v1",
             [typeof(UserProfileUpdated)] = "identity-access.user.profile-updated.v1",
-            [typeof(FraudDetected)] = "payment.fraud.detected.v1"
+            [typeof(UserDeactivated)] = "identity-access.user.deactivated.v1",
+            [typeof(UserReactivated)] = "identity-access.user.reactivated.v1",
+            [typeof(UserRolesChanged)] = "identity-access.user.roles-changed.v1",
+            [typeof(UserSessionsRevoked)] = "identity-access.user.sessions-revoked.v1",
+            [typeof(UserAccountDetailsUpdated)] = "identity-access.user.account-details-updated.v1",
+            [typeof(UserPasswordChanged)] = "identity-access.user.password-changed.v1",
+            [typeof(UserEmailVerified)] = "identity-access.user.email-verified.v1",
+            [typeof(UserLockedOut)] = "identity-access.user.locked-out.v1",
+            [typeof(UserAccountClosed)] = "identity-access.user.account-closed.v1",
+            [typeof(SellerApplicationSubmitted)] = "identity-access.seller-application.submitted.v1",
+            [typeof(SellerApplicationApproved)] = "identity-access.seller-application.approved.v1",
+            [typeof(SellerApplicationRejected)] = "identity-access.seller-application.rejected.v1",
+            [typeof(FraudDetected)] = "payment.fraud.detected.v1",
+            [typeof(FraudCleared)] = "payment.fraud.cleared.v1"
         };
 
         public static string For<TEvent>() where TEvent : IDomainEvent => For(typeof(TEvent));

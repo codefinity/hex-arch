@@ -32,5 +32,13 @@ namespace HexArch.Persistance.Postgres.IdentityAccess
             return await identityAccessContext.Profiles.Where(x => x.UserId == userId)
                                                         .FirstOrDefaultAsync();
         }
+
+        public async Task DeleteProfile(Guid userId)
+        {
+            // A set-based delete that bypasses the change tracker, so no tracked User.Profile
+            // navigation can resurrect the row on a later SaveChanges.
+            await identityAccessContext.Profiles.Where(x => x.UserId == userId)
+                                                .ExecuteDeleteAsync();
+        }
     }
 }

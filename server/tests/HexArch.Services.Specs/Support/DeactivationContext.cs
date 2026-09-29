@@ -8,10 +8,12 @@ namespace HexArch.Services.Specs.Support
     public class DeactivationContext
     {
         public InMemoryUserRepository Users { get; } = new();
+        public FixedSystemClock Clock { get; } = new();
+        public RecordingEventDispatcher Events { get; } = new();
 
         public DeactivateUserResult? Result { get; set; }
 
         public IDeactivateUserCommandHandler Handler => new DeactivateUserCommandHandler(
-            new DeactivateUserCommandValidator(), Users.Object);
+            new DeactivateUserCommandValidator(), Users.Object, Clock.Object, Events.Object);
     }
 }

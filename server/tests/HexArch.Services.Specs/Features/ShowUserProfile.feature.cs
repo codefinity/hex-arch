@@ -155,7 +155,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             else
             {
                 await this.ScenarioStartAsync();
-                global::Reqnroll.Table table9 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table13 = new global::Reqnroll.Table(new string[] {
                             "Name",
                             "Email",
                             "MobileNo",
@@ -164,7 +164,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
                             "DateOfBirth",
                             "AvatarUrl",
                             "Roles"});
-                table9.AddRow(new string[] {
+                table13.AddRow(new string[] {
                             "Nikhil Pat",
                             "nikhil@example.com",
                             "9999999999",
@@ -174,7 +174,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
                             "https://example.com/avatar.png",
                             "Admin,Customer"});
 #line 7
- await testRunner.GivenAsync("I am signed in as a user with a projected profile:", ((string)(null)), table9, "Given ");
+ await testRunner.GivenAsync("I am signed in as a user with a projected profile:", ((string)(null)), table13, "Given ");
 #line hidden
 #line 10
  await testRunner.WhenAsync("I view my profile", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
@@ -231,7 +231,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             else
             {
                 await this.ScenarioStartAsync();
-                global::Reqnroll.Table table10 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table14 = new global::Reqnroll.Table(new string[] {
                             "Name",
                             "Email",
                             "MobileNo",
@@ -240,7 +240,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
                             "DateOfBirth",
                             "AvatarUrl",
                             "Roles"});
-                table10.AddRow(new string[] {
+                table14.AddRow(new string[] {
                             "Nikhil Pat",
                             "nikhil@example.com",
                             "9999999999",
@@ -250,7 +250,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
                             "",
                             "Customer"});
 #line 22
- await testRunner.GivenAsync("I am signed in as a user with a projected profile:", ((string)(null)), table10, "Given ");
+ await testRunner.GivenAsync("I am signed in as a user with a projected profile:", ((string)(null)), table14, "Given ");
 #line hidden
 #line 25
  await testRunner.WhenAsync("I view my profile", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");

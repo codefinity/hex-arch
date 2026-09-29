@@ -173,18 +173,18 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line 6
 await this.FeatureBackgroundAsync();
 #line hidden
-                global::Reqnroll.Table table12 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table17 = new global::Reqnroll.Table(new string[] {
                             "Bio",
                             "Address",
                             "DateOfBirth",
                             "AvatarUrl"});
-                table12.AddRow(new string[] {
+                table17.AddRow(new string[] {
                             "Full stack developer.",
                             "221B Baker Street",
                             "1990-05-15",
                             "https://example.com/avatar.png"});
 #line 12
- await testRunner.WhenAsync("I update my profile with the following details:", ((string)(null)), table12, "When ");
+ await testRunner.WhenAsync("I update my profile with the following details:", ((string)(null)), table17, "When ");
 #line hidden
 #line 15
  await testRunner.ThenAsync("the profile update succeeds", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -235,18 +235,18 @@ await this.FeatureBackgroundAsync();
 #line 23
  await testRunner.GivenAsync("my profile already has the bio \"Old bio\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-                global::Reqnroll.Table table13 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table18 = new global::Reqnroll.Table(new string[] {
                             "Bio",
                             "Address",
                             "DateOfBirth",
                             "AvatarUrl"});
-                table13.AddRow(new string[] {
+                table18.AddRow(new string[] {
                             "Updated bio",
                             "",
                             "",
                             ""});
 #line 24
- await testRunner.WhenAsync("I update my profile with the following details:", ((string)(null)), table13, "When ");
+ await testRunner.WhenAsync("I update my profile with the following details:", ((string)(null)), table18, "When ");
 #line hidden
 #line 27
  await testRunner.ThenAsync("the profile update succeeds", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -282,18 +282,18 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line 6
 await this.FeatureBackgroundAsync();
 #line hidden
-                global::Reqnroll.Table table14 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table19 = new global::Reqnroll.Table(new string[] {
                             "Bio",
                             "Address",
                             "DateOfBirth",
                             "AvatarUrl"});
-                table14.AddRow(new string[] {
+                table19.AddRow(new string[] {
                             "New bio",
                             "",
                             "",
                             ""});
 #line 31
- await testRunner.WhenAsync("I update my profile with the following details:", ((string)(null)), table14, "When ");
+ await testRunner.WhenAsync("I update my profile with the following details:", ((string)(null)), table19, "When ");
 #line hidden
 #line 34
  await testRunner.ThenAsync("the profile update succeeds", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -335,18 +335,18 @@ await this.FeatureBackgroundAsync();
 #line 39
  await testRunner.GivenAsync("my account has been removed", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-                global::Reqnroll.Table table15 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table20 = new global::Reqnroll.Table(new string[] {
                             "Bio",
                             "Address",
                             "DateOfBirth",
                             "AvatarUrl"});
-                table15.AddRow(new string[] {
+                table20.AddRow(new string[] {
                             "New bio",
                             "",
                             "",
                             ""});
 #line 40
- await testRunner.WhenAsync("I update my profile with the following details:", ((string)(null)), table15, "When ");
+ await testRunner.WhenAsync("I update my profile with the following details:", ((string)(null)), table20, "When ");
 #line hidden
 #line 43
  await testRunner.ThenAsync("the profile update fails with the error \"User not found.\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -382,18 +382,18 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line 6
 await this.FeatureBackgroundAsync();
 #line hidden
-                global::Reqnroll.Table table16 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table21 = new global::Reqnroll.Table(new string[] {
                             "Bio",
                             "Address",
                             "DateOfBirth",
                             "AvatarUrl"});
-                table16.AddRow(new string[] {
+                table21.AddRow(new string[] {
                             "",
                             "",
                             "",
                             "not-a-url"});
 #line 47
- await testRunner.WhenAsync("I update my profile with the following details:", ((string)(null)), table16, "When ");
+ await testRunner.WhenAsync("I update my profile with the following details:", ((string)(null)), table21, "When ");
 #line hidden
 #line 50
  await testRunner.ThenAsync("the profile update fails with the error \"Avatar URL must be a valid absolute URL." +
@@ -427,18 +427,18 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line 6
 await this.FeatureBackgroundAsync();
 #line hidden
-                global::Reqnroll.Table table17 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table22 = new global::Reqnroll.Table(new string[] {
                             "Bio",
                             "Address",
                             "DateOfBirth",
                             "AvatarUrl"});
-                table17.AddRow(new string[] {
+                table22.AddRow(new string[] {
                             "",
                             "",
                             "2099-01-01",
                             ""});
 #line 53
- await testRunner.WhenAsync("I update my profile with the following details:", ((string)(null)), table17, "When ");
+ await testRunner.WhenAsync("I update my profile with the following details:", ((string)(null)), table22, "When ");
 #line hidden
 #line 56
  await testRunner.ThenAsync("the profile update fails with the error \"Date of birth must be in the past.\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -544,18 +544,18 @@ await this.FeatureBackgroundAsync();
  await testRunner.WhenAsync("I update my profile with a bio of 501 characters, an address of 301 characters, a" +
                         "n avatar URL of \"not-a-url\", and a date of birth of \"2099-01-01\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-                global::Reqnroll.Table table18 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table23 = new global::Reqnroll.Table(new string[] {
                             "Error"});
-                table18.AddRow(new string[] {
+                table23.AddRow(new string[] {
                             "Bio must not exceed 500 characters."});
-                table18.AddRow(new string[] {
+                table23.AddRow(new string[] {
                             "Address must not exceed 300 characters."});
-                table18.AddRow(new string[] {
+                table23.AddRow(new string[] {
                             "Avatar URL must be a valid absolute URL."});
-                table18.AddRow(new string[] {
+                table23.AddRow(new string[] {
                             "Date of birth must be in the past."});
 #line 68
- await testRunner.ThenAsync("the profile update fails with these errors:", ((string)(null)), table18, "Then ");
+ await testRunner.ThenAsync("the profile update fails with these errors:", ((string)(null)), table23, "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

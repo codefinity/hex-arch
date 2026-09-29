@@ -29,6 +29,7 @@ namespace HexArch.Services.Specs.Support.Fakes
                     var index = users.FindIndex(u => u.Id == user.Id);
                     if (index >= 0)
                         users[index] = user;
+                    UpdateCount++;
                 })
                 .Returns(Task.CompletedTask);
 
@@ -38,10 +39,16 @@ namespace HexArch.Services.Specs.Support.Fakes
 
             mock.Setup(repository => repository.GetUser(It.IsAny<Guid>()))
                 .Returns<Guid>(id => Task.FromResult(users.FirstOrDefault(u => u.Id == id)));
+
+            mock.Setup(repository => repository.CountActiveUsersInRole(It.IsAny<string>()))
+                .Returns<string>(roleName => Task.FromResult(
+                    users.Count(u => u.Active && u.Roles.Any(role => role.Name == roleName))));
         }
 
         public IUserRepository Object => mock.Object;
         public IReadOnlyList<User> Users => users;
+        // How many times a handler wrote a user back, so scenarios can assert "nothing was saved".
+        public int UpdateCount { get; private set; }
 
         public void Seed(User user) => users.Add(user);
 

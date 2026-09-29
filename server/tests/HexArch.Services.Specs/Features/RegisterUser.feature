@@ -17,6 +17,7 @@ Scenario: A visitor registers with valid details
 	And that account is active
 	And that account is registered on "2026-08-20T10:30:00Z"
 	And that account is granted the "Customer" role
+	And that account is issued a security stamp
 
 Scenario: The password is never stored in plain text
 	When I register with the following details:

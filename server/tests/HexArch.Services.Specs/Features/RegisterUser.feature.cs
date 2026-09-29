@@ -170,18 +170,18 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line 6
 await this.FeatureBackgroundAsync();
 #line hidden
-                global::Reqnroll.Table table1 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table2 = new global::Reqnroll.Table(new string[] {
                             "Name",
                             "Email",
                             "Password",
                             "MobileNo"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "Nikhil Patel",
                             "nikhil@example.com",
                             "Sup3rSecret!",
                             "9876543210"});
 #line 11
- await testRunner.WhenAsync("I register with the following details:", ((string)(null)), table1, "When ");
+ await testRunner.WhenAsync("I register with the following details:", ((string)(null)), table2, "When ");
 #line hidden
 #line 14
  await testRunner.ThenAsync("the registration succeeds", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -201,6 +201,9 @@ await this.FeatureBackgroundAsync();
 #line 19
  await testRunner.AndAsync("that account is granted the \"Customer\" role", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
+#line 20
+ await testRunner.AndAsync("that account is issued a security stamp", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
             }
             await this.ScenarioCleanupAsync();
         }
@@ -216,57 +219,7 @@ await this.FeatureBackgroundAsync();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("The password is never stored in plain text", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 21
-this.ScenarioInitialize(scenarioInfo, ruleInfo);
-#line hidden
-            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
-            {
-                await testRunner.SkipScenarioAsync();
-            }
-            else
-            {
-                await this.ScenarioStartAsync();
-#line 6
-await this.FeatureBackgroundAsync();
-#line hidden
-                global::Reqnroll.Table table2 = new global::Reqnroll.Table(new string[] {
-                            "Name",
-                            "Email",
-                            "Password",
-                            "MobileNo"});
-                table2.AddRow(new string[] {
-                            "Nikhil Patel",
-                            "nikhil@example.com",
-                            "Sup3rSecret!",
-                            "9876543210"});
 #line 22
- await testRunner.WhenAsync("I register with the following details:", ((string)(null)), table2, "When ");
-#line hidden
-#line 25
- await testRunner.ThenAsync("the registration succeeds", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 26
- await testRunner.AndAsync("the stored password for \"nikhil@example.com\" is not \"Sup3rSecret!\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 27
- await testRunner.AndAsync("the stored password for \"nikhil@example.com\" is salted", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-            }
-            await this.ScenarioCleanupAsync();
-        }
-        
-        [global::Xunit.FactAttribute(DisplayName="Registering announces the new account to the rest of the system")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "User registration")]
-        [global::Xunit.TraitAttribute("Description", "Registering announces the new account to the rest of the system")]
-        public async global::System.Threading.Tasks.Task RegisteringAnnouncesTheNewAccountToTheRestOfTheSystem()
-        {
-            string[] tagsOfScenario = ((string[])(null));
-            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
-            string pickleIndex = "2";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Registering announces the new account to the rest of the system", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
-            string[] tagsOfRule = ((string[])(null));
-            global::Reqnroll.RuleInfo ruleInfo = null;
-#line 29
 this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -289,16 +242,66 @@ await this.FeatureBackgroundAsync();
                             "nikhil@example.com",
                             "Sup3rSecret!",
                             "9876543210"});
-#line 30
+#line 23
  await testRunner.WhenAsync("I register with the following details:", ((string)(null)), table3, "When ");
 #line hidden
-#line 33
+#line 26
  await testRunner.ThenAsync("the registration succeeds", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
+#line 27
+ await testRunner.AndAsync("the stored password for \"nikhil@example.com\" is not \"Sup3rSecret!\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 28
+ await testRunner.AndAsync("the stored password for \"nikhil@example.com\" is salted", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Xunit.FactAttribute(DisplayName="Registering announces the new account to the rest of the system")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "User registration")]
+        [global::Xunit.TraitAttribute("Description", "Registering announces the new account to the rest of the system")]
+        public async global::System.Threading.Tasks.Task RegisteringAnnouncesTheNewAccountToTheRestOfTheSystem()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "2";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Registering announces the new account to the rest of the system", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 30
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 6
+await this.FeatureBackgroundAsync();
+#line hidden
+                global::Reqnroll.Table table4 = new global::Reqnroll.Table(new string[] {
+                            "Name",
+                            "Email",
+                            "Password",
+                            "MobileNo"});
+                table4.AddRow(new string[] {
+                            "Nikhil Patel",
+                            "nikhil@example.com",
+                            "Sup3rSecret!",
+                            "9876543210"});
+#line 31
+ await testRunner.WhenAsync("I register with the following details:", ((string)(null)), table4, "When ");
+#line hidden
 #line 34
- await testRunner.AndAsync("a \"UserRegistered\" event is published for the new account", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+ await testRunner.ThenAsync("the registration succeeds", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 35
+ await testRunner.AndAsync("a \"UserRegistered\" event is published for the new account", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 36
  await testRunner.AndAsync("that event occurred on \"2026-08-20T10:30:00Z\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -316,7 +319,7 @@ await this.FeatureBackgroundAsync();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("The email address is already registered", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 37
+#line 38
 this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -329,30 +332,30 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line 6
 await this.FeatureBackgroundAsync();
 #line hidden
-#line 38
+#line 39
  await testRunner.GivenAsync("an account already exists for \"nikhil@example.com\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-                global::Reqnroll.Table table4 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table5 = new global::Reqnroll.Table(new string[] {
                             "Name",
                             "Email",
                             "Password",
                             "MobileNo"});
-                table4.AddRow(new string[] {
+                table5.AddRow(new string[] {
                             "Nikhil Patel",
                             "nikhil@example.com",
                             "Sup3rSecret!",
                             "9876543210"});
-#line 39
- await testRunner.WhenAsync("I register with the following details:", ((string)(null)), table4, "When ");
+#line 40
+ await testRunner.WhenAsync("I register with the following details:", ((string)(null)), table5, "When ");
 #line hidden
-#line 42
+#line 43
  await testRunner.ThenAsync("the registration fails with the error \"A user with this email is already register" +
                         "ed.\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 43
+#line 44
  await testRunner.AndAsync("no new account is stored", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 44
+#line 45
  await testRunner.AndAsync("no event is published", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -370,7 +373,7 @@ await this.FeatureBackgroundAsync();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("The default role has not been configured", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 46
+#line 47
 this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -383,30 +386,30 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line 6
 await this.FeatureBackgroundAsync();
 #line hidden
-#line 47
+#line 48
  await testRunner.GivenAsync("the default \"Customer\" role is not configured", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-                global::Reqnroll.Table table5 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table6 = new global::Reqnroll.Table(new string[] {
                             "Name",
                             "Email",
                             "Password",
                             "MobileNo"});
-                table5.AddRow(new string[] {
+                table6.AddRow(new string[] {
                             "Nikhil Patel",
                             "nikhil@example.com",
                             "Sup3rSecret!",
                             "9876543210"});
-#line 48
- await testRunner.WhenAsync("I register with the following details:", ((string)(null)), table5, "When ");
+#line 49
+ await testRunner.WhenAsync("I register with the following details:", ((string)(null)), table6, "When ");
 #line hidden
-#line 51
+#line 52
  await testRunner.ThenAsync("the registration fails with the error \"Default role \'Customer\' is not configured." +
                         "\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 52
+#line 53
  await testRunner.AndAsync("no new account is stored", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 53
+#line 54
  await testRunner.AndAsync("no event is published", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -435,57 +438,7 @@ await this.FeatureBackgroundAsync();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("A required detail is missing or invalid", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 55
-this.ScenarioInitialize(scenarioInfo, ruleInfo);
-#line hidden
-            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
-            {
-                await testRunner.SkipScenarioAsync();
-            }
-            else
-            {
-                await this.ScenarioStartAsync();
-#line 6
-await this.FeatureBackgroundAsync();
-#line hidden
-                global::Reqnroll.Table table6 = new global::Reqnroll.Table(new string[] {
-                            "Name",
-                            "Email",
-                            "Password",
-                            "MobileNo"});
-                table6.AddRow(new string[] {
-                            string.Format("{0}", name),
-                            string.Format("{0}", email),
-                            string.Format("{0}", password),
-                            string.Format("{0}", mobileNo)});
 #line 56
- await testRunner.WhenAsync("I register with the following details:", ((string)(null)), table6, "When ");
-#line hidden
-#line 59
- await testRunner.ThenAsync(string.Format("the registration fails with the error \"{0}\"", error), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 60
- await testRunner.AndAsync("no new account is stored", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 61
- await testRunner.AndAsync("no event is published", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-            }
-            await this.ScenarioCleanupAsync();
-        }
-        
-        [global::Xunit.FactAttribute(DisplayName="Every invalid detail is reported at once")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "User registration")]
-        [global::Xunit.TraitAttribute("Description", "Every invalid detail is reported at once")]
-        public async global::System.Threading.Tasks.Task EveryInvalidDetailIsReportedAtOnce()
-        {
-            string[] tagsOfScenario = ((string[])(null));
-            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
-            string pickleIndex = "11";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Every invalid detail is reported at once", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
-            string[] tagsOfRule = ((string[])(null));
-            global::Reqnroll.RuleInfo ruleInfo = null;
-#line 72
 this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -504,25 +457,75 @@ await this.FeatureBackgroundAsync();
                             "Password",
                             "MobileNo"});
                 table7.AddRow(new string[] {
+                            string.Format("{0}", name),
+                            string.Format("{0}", email),
+                            string.Format("{0}", password),
+                            string.Format("{0}", mobileNo)});
+#line 57
+ await testRunner.WhenAsync("I register with the following details:", ((string)(null)), table7, "When ");
+#line hidden
+#line 60
+ await testRunner.ThenAsync(string.Format("the registration fails with the error \"{0}\"", error), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 61
+ await testRunner.AndAsync("no new account is stored", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 62
+ await testRunner.AndAsync("no event is published", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Xunit.FactAttribute(DisplayName="Every invalid detail is reported at once")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "User registration")]
+        [global::Xunit.TraitAttribute("Description", "Every invalid detail is reported at once")]
+        public async global::System.Threading.Tasks.Task EveryInvalidDetailIsReportedAtOnce()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "11";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Every invalid detail is reported at once", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 73
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 6
+await this.FeatureBackgroundAsync();
+#line hidden
+                global::Reqnroll.Table table8 = new global::Reqnroll.Table(new string[] {
+                            "Name",
+                            "Email",
+                            "Password",
+                            "MobileNo"});
+                table8.AddRow(new string[] {
                             "",
                             "",
                             "",
                             ""});
-#line 73
- await testRunner.WhenAsync("I register with the following details:", ((string)(null)), table7, "When ");
+#line 74
+ await testRunner.WhenAsync("I register with the following details:", ((string)(null)), table8, "When ");
 #line hidden
-                global::Reqnroll.Table table8 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table9 = new global::Reqnroll.Table(new string[] {
                             "Error"});
-                table8.AddRow(new string[] {
+                table9.AddRow(new string[] {
                             "Name is required."});
-                table8.AddRow(new string[] {
+                table9.AddRow(new string[] {
                             "A valid email is required."});
-                table8.AddRow(new string[] {
+                table9.AddRow(new string[] {
                             "Password must be at least 8 characters long."});
-                table8.AddRow(new string[] {
+                table9.AddRow(new string[] {
                             "Mobile number is required."});
-#line 76
- await testRunner.ThenAsync("the registration fails with these errors:", ((string)(null)), table8, "Then ");
+#line 77
+ await testRunner.ThenAsync("the registration fails with these errors:", ((string)(null)), table9, "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

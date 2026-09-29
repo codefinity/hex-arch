@@ -40,5 +40,10 @@ namespace HexArch.Persistance.Postgres.IdentityAccess
                                                     .Include(r => r.Roles)
                                                     .FirstOrDefaultAsync();
         }
+
+        public async Task<int> CountActiveUsersInRole(string roleName)
+        {
+            return await identityAccessContext.Users.CountAsync(x => x.Active && x.Roles.Any(r => r.Name == roleName));
+        }
     }
 }

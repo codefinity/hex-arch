@@ -112,13 +112,16 @@ namespace HexArch.Services.Specs.Features
  await testRunner.GivenAsync("the sign-in token expires on \"2026-08-21T10:30:00Z\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 8
+ await testRunner.AndAsync("the sign-in clock is fixed at \"2026-08-20T10:30:00Z\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 9
  await testRunner.AndAsync("an active account exists for \"nikhil@example.com\" with password \"Sup3rSecret!\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
         }
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/SignIn.feature.ndjson", 10);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/SignIn.feature.ndjson", 15);
         }
         
         async System.Threading.Tasks.ValueTask Xunit.IAsyncLifetime.InitializeAsync()
@@ -157,7 +160,7 @@ namespace HexArch.Services.Specs.Features
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("A registered user signs in with correct credentials", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 10
+#line 11
 this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -170,16 +173,16 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line 6
 await this.FeatureBackgroundAsync();
 #line hidden
-#line 11
+#line 12
  await testRunner.WhenAsync("I sign in with email \"nikhil@example.com\" and password \"Sup3rSecret!\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 12
+#line 13
  await testRunner.ThenAsync("the sign in succeeds", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 13
+#line 14
  await testRunner.AndAsync("a token is returned", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 14
+#line 15
  await testRunner.AndAsync("the token expires on \"2026-08-21T10:30:00Z\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -197,7 +200,7 @@ await this.FeatureBackgroundAsync();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("The password is incorrect", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 16
+#line 17
 this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -210,13 +213,13 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line 6
 await this.FeatureBackgroundAsync();
 #line hidden
-#line 17
+#line 18
  await testRunner.WhenAsync("I sign in with email \"nikhil@example.com\" and password \"WrongPassword!\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 18
+#line 19
  await testRunner.ThenAsync("the sign in fails with the error \"Invalid email or password.\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 19
+#line 20
  await testRunner.AndAsync("no token is returned", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -234,7 +237,7 @@ await this.FeatureBackgroundAsync();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("The email is not registered", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 21
+#line 22
 this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -247,13 +250,13 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line 6
 await this.FeatureBackgroundAsync();
 #line hidden
-#line 22
+#line 23
  await testRunner.WhenAsync("I sign in with email \"unknown@example.com\" and password \"Sup3rSecret!\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 23
+#line 24
  await testRunner.ThenAsync("the sign in fails with the error \"Invalid email or password.\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 24
+#line 25
  await testRunner.AndAsync("no token is returned", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -271,7 +274,7 @@ await this.FeatureBackgroundAsync();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("The account is inactive", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 26
+#line 27
 this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -284,18 +287,213 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line 6
 await this.FeatureBackgroundAsync();
 #line hidden
-#line 27
+#line 28
  await testRunner.GivenAsync("an inactive account exists for \"inactive@example.com\" with password \"Sup3rSecret!" +
                         "\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 28
+#line 29
  await testRunner.WhenAsync("I sign in with email \"inactive@example.com\" and password \"Sup3rSecret!\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 29
+#line 30
  await testRunner.ThenAsync("the sign in fails with the error \"This account is inactive.\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 30
+#line 31
  await testRunner.AndAsync("no token is returned", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Xunit.FactAttribute(DisplayName="Too many wrong passwords in a row lock the account")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "User sign in")]
+        [global::Xunit.TraitAttribute("Description", "Too many wrong passwords in a row lock the account")]
+        public async global::System.Threading.Tasks.Task TooManyWrongPasswordsInARowLockTheAccount()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "4";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Too many wrong passwords in a row lock the account", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 33
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 6
+await this.FeatureBackgroundAsync();
+#line hidden
+#line 34
+ await testRunner.WhenAsync("I sign in with email \"nikhil@example.com\" and the wrong password 5 times", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 35
+ await testRunner.ThenAsync("the account \"nikhil@example.com\" is locked until \"2026-08-20T10:45:00Z\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 36
+ await testRunner.AndAsync("a \"UserLockedOut\" event is published for \"nikhil@example.com\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Xunit.FactAttribute(DisplayName="Fewer wrong passwords than the limit do not lock the account")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "User sign in")]
+        [global::Xunit.TraitAttribute("Description", "Fewer wrong passwords than the limit do not lock the account")]
+        public async global::System.Threading.Tasks.Task FewerWrongPasswordsThanTheLimitDoNotLockTheAccount()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "5";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Fewer wrong passwords than the limit do not lock the account", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 38
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 6
+await this.FeatureBackgroundAsync();
+#line hidden
+#line 39
+ await testRunner.WhenAsync("I sign in with email \"nikhil@example.com\" and the wrong password 4 times", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 40
+ await testRunner.ThenAsync("the account \"nikhil@example.com\" is not locked", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 41
+ await testRunner.AndAsync("no sign-in event is published", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Xunit.FactAttribute(DisplayName="A locked account cannot sign in even with the correct password")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "User sign in")]
+        [global::Xunit.TraitAttribute("Description", "A locked account cannot sign in even with the correct password")]
+        public async global::System.Threading.Tasks.Task ALockedAccountCannotSignInEvenWithTheCorrectPassword()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "6";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("A locked account cannot sign in even with the correct password", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 43
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 6
+await this.FeatureBackgroundAsync();
+#line hidden
+#line 44
+ await testRunner.GivenAsync("the account \"nikhil@example.com\" is locked until \"2026-08-20T10:45:00Z\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 45
+ await testRunner.WhenAsync("I sign in with email \"nikhil@example.com\" and password \"Sup3rSecret!\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 46
+ await testRunner.ThenAsync("the sign in fails with the error \"This account is temporarily locked. Try again l" +
+                        "ater.\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 47
+ await testRunner.AndAsync("no token is returned", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Xunit.FactAttribute(DisplayName="A locked account can sign in again once the lock has expired")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "User sign in")]
+        [global::Xunit.TraitAttribute("Description", "A locked account can sign in again once the lock has expired")]
+        public async global::System.Threading.Tasks.Task ALockedAccountCanSignInAgainOnceTheLockHasExpired()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "7";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("A locked account can sign in again once the lock has expired", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 49
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 6
+await this.FeatureBackgroundAsync();
+#line hidden
+#line 50
+ await testRunner.GivenAsync("the account \"nikhil@example.com\" is locked until \"2026-08-20T10:00:00Z\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 51
+ await testRunner.WhenAsync("I sign in with email \"nikhil@example.com\" and password \"Sup3rSecret!\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 52
+ await testRunner.ThenAsync("the sign in succeeds", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 53
+ await testRunner.AndAsync("the account \"nikhil@example.com\" is not locked", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Xunit.FactAttribute(DisplayName="A successful sign in forgets earlier failed attempts")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "User sign in")]
+        [global::Xunit.TraitAttribute("Description", "A successful sign in forgets earlier failed attempts")]
+        public async global::System.Threading.Tasks.Task ASuccessfulSignInForgetsEarlierFailedAttempts()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "8";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("A successful sign in forgets earlier failed attempts", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 55
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 6
+await this.FeatureBackgroundAsync();
+#line hidden
+#line 56
+ await testRunner.GivenAsync("the account \"nikhil@example.com\" has 4 failed sign-in attempts", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 57
+ await testRunner.WhenAsync("I sign in with email \"nikhil@example.com\" and password \"Sup3rSecret!\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 58
+ await testRunner.ThenAsync("the sign in succeeds", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 59
+ await testRunner.AndAsync("the account \"nikhil@example.com\" has 0 failed sign-in attempts", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -304,9 +502,9 @@ await this.FeatureBackgroundAsync();
         [global::Xunit.TheoryAttribute(DisplayName="A required detail is missing or invalid")]
         [global::Xunit.TraitAttribute("FeatureTitle", "User sign in")]
         [global::Xunit.TraitAttribute("Description", "A required detail is missing or invalid")]
-        [global::Xunit.InlineDataAttribute("", "Sup3rSecret!", "A valid email is required.", "4", new string[0])]
-        [global::Xunit.InlineDataAttribute("not-an-email", "Sup3rSecret!", "A valid email is required.", "5", new string[0])]
-        [global::Xunit.InlineDataAttribute("nikhil@example.com", "", "Password is required.", "6", new string[0])]
+        [global::Xunit.InlineDataAttribute("", "Sup3rSecret!", "A valid email is required.", "9", new string[0])]
+        [global::Xunit.InlineDataAttribute("not-an-email", "Sup3rSecret!", "A valid email is required.", "10", new string[0])]
+        [global::Xunit.InlineDataAttribute("nikhil@example.com", "", "Password is required.", "11", new string[0])]
         public async global::System.Threading.Tasks.Task ARequiredDetailIsMissingOrInvalid(string email, string password, string error, string @__pickleIndex, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
@@ -318,7 +516,7 @@ await this.FeatureBackgroundAsync();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("A required detail is missing or invalid", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 32
+#line 61
 this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -331,10 +529,10 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line 6
 await this.FeatureBackgroundAsync();
 #line hidden
-#line 33
+#line 62
  await testRunner.WhenAsync(string.Format("I sign in with email \"{0}\" and password \"{1}\"", email, password), ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 34
+#line 63
  await testRunner.ThenAsync(string.Format("the sign in fails with the error \"{0}\"", error), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -348,11 +546,11 @@ await this.FeatureBackgroundAsync();
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
-            string pickleIndex = "7";
+            string pickleIndex = "12";
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Every invalid detail is reported at once", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 42
+#line 71
 this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -365,17 +563,17 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line 6
 await this.FeatureBackgroundAsync();
 #line hidden
-#line 43
+#line 72
  await testRunner.WhenAsync("I sign in with email \"\" and password \"\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-                global::Reqnroll.Table table11 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table15 = new global::Reqnroll.Table(new string[] {
                             "Error"});
-                table11.AddRow(new string[] {
+                table15.AddRow(new string[] {
                             "A valid email is required."});
-                table11.AddRow(new string[] {
+                table15.AddRow(new string[] {
                             "Password is required."});
-#line 44
- await testRunner.ThenAsync("the sign in fails with these errors:", ((string)(null)), table11, "Then ");
+#line 73
+ await testRunner.ThenAsync("the sign in fails with these errors:", ((string)(null)), table15, "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

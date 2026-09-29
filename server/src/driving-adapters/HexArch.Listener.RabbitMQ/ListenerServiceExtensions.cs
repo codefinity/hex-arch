@@ -16,6 +16,9 @@ namespace HexArch.Listener.RabbitMQ
             // than blocking the host.
             services.AddHostedService<FraudDetectedConsumer>();
 
+            // Drains identity-access.reactivate-on-fraud-cleared, on its own connection.
+            services.AddHostedService<FraudClearedConsumer>();
+
             return services;
         }
     }

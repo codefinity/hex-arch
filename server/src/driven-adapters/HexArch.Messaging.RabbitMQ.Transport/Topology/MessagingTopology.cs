@@ -35,6 +35,12 @@ namespace HexArch.Messaging.RabbitMQ.Transport.Topology
         /// one queue on a shared broker.</summary>
         public static string DeactivateOnFraudQueue(string prefix) => PrefixedQueue(prefix, DeactivateOnFraudQueueName);
 
+        /// <summary>The unprefixed name of the queue the fraud-cleared consumer drains.</summary>
+        private const string ReactivateOnFraudClearedQueueName = "identity-access.reactivate-on-fraud-cleared";
+
+        /// <summary>The queue the fraud-cleared consumer drains, prefixed like <see cref="DeactivateOnFraudQueue"/>.</summary>
+        public static string ReactivateOnFraudClearedQueue(string prefix) => PrefixedQueue(prefix, ReactivateOnFraudClearedQueueName);
+
         public int ResourceCount => Exchanges.Count + Queues.Count + Bindings.Count;
 
         public static MessagingTopology Build(RabbitMqOptions options)
@@ -52,12 +58,19 @@ namespace HexArch.Messaging.RabbitMQ.Transport.Topology
             // of step with what the publisher puts on the wire. The wildcard bindings stay literal —
             // those are patterns, not contracts.
             builder.WorkQueue("notifications.welcome-email", identityAccess, EventContracts.For<UserRegistered>());
+            builder.WorkQueue("notifications.password-changed", identityAccess, EventContracts.For<UserPasswordChanged>());
             builder.WorkQueue("projections.user-view-model", identityAccess, "identity-access.user.#");
+            // The user view model also shows each user's latest seller application.
+            builder.Bind("projections.user-view-model", identityAccess, "identity-access.seller-application.#");
             builder.WorkQueue("analytics.firehose", identityAccess, "#");
 
             // Deactivates a user on a fraud alert. This one is actually drained — see
             // HexArch.Listener.RabbitMQ/Consumers/FraudDetectedConsumer.cs.
             builder.WorkQueue(DeactivateOnFraudQueueName, payment, EventContracts.For<FraudDetected>());
+
+            // Reactivates a user whose fraud alert turned out to be a false positive. Also drained —
+            // see HexArch.Listener.RabbitMQ/Consumers/FraudClearedConsumer.cs.
+            builder.WorkQueue(ReactivateOnFraudClearedQueueName, payment, EventContracts.For<FraudCleared>());
 
             return builder.Build();
         }
@@ -154,6 +167,23 @@ namespace HexArch.Messaging.RabbitMQ.Transport.Topology
                 bindings.Add(new BindingDefinition(queue, exchange, bindingKey));
                 bindings.Add(new BindingDefinition(queue, RetryExchange(prefix), queue));
                 bindings.Add(new BindingDefinition(deadQueue, DeadLetterExchange(prefix), deadQueue));
+            }
+
+            /// <summary>
+            /// Adds one more binding key to a work queue <see cref="WorkQueue"/> already declared, for a
+            /// consumer that needs events one pattern cannot match. The retry and dead-letter wiring is
+            /// per queue, not per binding, so nothing else is needed.
+            /// </summary>
+            public void Bind(string queue, string exchange, string bindingKey)
+            {
+                queue = PrefixedQueue(prefix, queue);
+
+                if (!queues.Any(existing => existing.Name == queue))
+                {
+                    throw new InvalidOperationException($"Declare work queue '{queue}' before adding bindings to it.");
+                }
+
+                bindings.Add(new BindingDefinition(queue, exchange, bindingKey));
             }
 
             public MessagingTopology Build() => new(exchanges, queues, bindings);

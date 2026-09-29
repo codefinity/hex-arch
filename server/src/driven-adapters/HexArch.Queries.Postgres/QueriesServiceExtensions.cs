@@ -16,6 +16,7 @@ namespace HexArch.Queries.Postgres
 
             services.TryAddSingleton(_ => NpgsqlDataSource.Create(connectionString));
             services.AddScoped<IUserProfileQuery, UserProfileQuery>();
+            services.AddScoped<IUserSearchQuery, UserSearchQuery>();
 
             return services;
         }

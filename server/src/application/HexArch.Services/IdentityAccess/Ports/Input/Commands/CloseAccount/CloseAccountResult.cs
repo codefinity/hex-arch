@@ -1,0 +1,22 @@
+namespace HexArch.Services.IdentityAccess.Ports.Input.Commands.CloseAccount
+{
+    public class CloseAccountResult
+    {
+        public bool Success { get; }
+        public Guid UserId { get; }
+        public IReadOnlyList<string> Errors { get; }
+
+        private CloseAccountResult(bool success, Guid userId, IReadOnlyList<string> errors)
+        {
+            Success = success;
+            UserId = userId;
+            Errors = errors;
+        }
+
+        public static CloseAccountResult Succeeded(Guid userId) =>
+            new(true, userId, Array.Empty<string>());
+
+        public static CloseAccountResult Failed(params string[] errors) =>
+            new(false, Guid.Empty, errors);
+    }
+}

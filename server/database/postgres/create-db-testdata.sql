@@ -58,5 +58,8 @@ INSERT INTO users.userroles (userid, rolesid) VALUES
 (:AmeliaFosterId, :Seller),
 (:BenjaminHughesId, :Seller);
 
+-- Seeded addresses are treated as already verified.
+UPDATE users.users SET emailverified = true;
+
 -- Backfill the denormalized read model for the seeded users (bypassed the app, so no events fired).
 SELECT viewmodels.reconcile_user_viewmodels();

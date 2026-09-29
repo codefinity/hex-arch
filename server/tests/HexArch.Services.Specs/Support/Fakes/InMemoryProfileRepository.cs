@@ -28,6 +28,10 @@ namespace HexArch.Services.Specs.Support.Fakes
                         profiles[index] = profile;
                 })
                 .Returns(Task.CompletedTask);
+
+            mock.Setup(repository => repository.DeleteProfile(It.IsAny<Guid>()))
+                .Callback<Guid>(userId => profiles.RemoveAll(p => p.UserId == userId))
+                .Returns(Task.CompletedTask);
         }
 
         public IProfileRepository Object => mock.Object;

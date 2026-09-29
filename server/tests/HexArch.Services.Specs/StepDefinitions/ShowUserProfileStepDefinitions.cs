@@ -36,7 +36,15 @@ namespace HexArch.Services.Specs.StepDefinitions
                 ParseDateOnly(row["DateOfBirth"]),
                 NullIfEmpty(row["AvatarUrl"]),
                 DateTime.UtcNow,
-                DateTime.UtcNow));
+                DateTime.UtcNow,
+                EmailVerified: true,
+                DeactivationReason: null,
+                DeactivatedOn: null,
+                ClosedOn: null,
+                SellerApplicationId: null,
+                SellerApplicationStatus: null,
+                BusinessName: null,
+                SellerApplicationSubmittedOn: null));
 
             context.CurrentUser.UserId = userId;
         }

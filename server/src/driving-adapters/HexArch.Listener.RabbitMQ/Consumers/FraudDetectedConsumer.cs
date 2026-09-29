@@ -10,7 +10,8 @@ namespace HexArch.Listener.RabbitMQ.Consumers
     /// <summary>Deactivates a user in response to a fraud alert from the payment context.</summary>
     internal sealed class FraudDetectedConsumer : QueueConsumer<FraudDetected>
     {
-        private const string DeactivationReason = "Fraud detected.";
+        // Internal: FraudClearedConsumer only undoes deactivations made for exactly this reason.
+        internal const string DeactivationReason = "Fraud detected.";
 
         private readonly RabbitMqOptions options;
 

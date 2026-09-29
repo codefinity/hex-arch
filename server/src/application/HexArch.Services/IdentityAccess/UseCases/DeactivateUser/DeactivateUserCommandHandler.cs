@@ -1,5 +1,8 @@
 using FluentValidation;
+using HexArch.Events.IdentityAccess;
 using HexArch.Services.IdentityAccess.Ports.Input.Commands.DeactivateUser;
+using HexArch.Services.IdentityAccess.Ports.Output.Clock;
+using HexArch.Services.IdentityAccess.Ports.Output.Events;
 using HexArch.Services.IdentityAccess.Ports.Output.Persistance;
 
 namespace HexArch.Services.IdentityAccess.UseCases.DeactivateUser
@@ -8,13 +11,19 @@ namespace HexArch.Services.IdentityAccess.UseCases.DeactivateUser
     {
         private readonly IValidator<DeactivateUserCommand> validator;
         private readonly IUserRepository userRepository;
+        private readonly ISystemClock clock;
+        private readonly IEventDispatcher events;
 
         public DeactivateUserCommandHandler(
             IValidator<DeactivateUserCommand> validator,
-            IUserRepository userRepository)
+            IUserRepository userRepository,
+            ISystemClock clock,
+            IEventDispatcher events)
         {
             this.validator = validator;
             this.userRepository = userRepository;
+            this.clock = clock;
+            this.events = events;
         }
 
         public async Task<DeactivateUserResult> Handle(DeactivateUserCommand command, CancellationToken cancellationToken)
@@ -41,8 +50,16 @@ namespace HexArch.Services.IdentityAccess.UseCases.DeactivateUser
             }
 
             user.Active = false;
+            user.DeactivationReason = command.Reason;
+            user.DeactivatedOn = clock.UtcNow;
+            // Refusing new sign-ins is not enough: tokens already issued must stop working too.
+            user.SecurityStamp = Guid.NewGuid();
 
             await userRepository.UpdateUser(user);
+
+            // Raised only after the user is committed, so any listener projecting a read model
+            // always sees durable data.
+            await events.Dispatch(new UserDeactivated(user.Id, command.Reason, clock.UtcNow), cancellationToken);
 
             return DeactivateUserResult.Succeeded(user.Id);
         }

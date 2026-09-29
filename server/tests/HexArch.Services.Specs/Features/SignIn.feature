@@ -5,6 +5,7 @@ Feature: User sign in
 
 Background:
 	Given the sign-in token expires on "2026-08-21T10:30:00Z"
+	And the sign-in clock is fixed at "2026-08-20T10:30:00Z"
 	And an active account exists for "nikhil@example.com" with password "Sup3rSecret!"
 
 Scenario: A registered user signs in with correct credentials
@@ -28,6 +29,34 @@ Scenario: The account is inactive
 	When I sign in with email "inactive@example.com" and password "Sup3rSecret!"
 	Then the sign in fails with the error "This account is inactive."
 	And no token is returned
+
+Scenario: Too many wrong passwords in a row lock the account
+	When I sign in with email "nikhil@example.com" and the wrong password 5 times
+	Then the account "nikhil@example.com" is locked until "2026-08-20T10:45:00Z"
+	And a "UserLockedOut" event is published for "nikhil@example.com"
+
+Scenario: Fewer wrong passwords than the limit do not lock the account
+	When I sign in with email "nikhil@example.com" and the wrong password 4 times
+	Then the account "nikhil@example.com" is not locked
+	And no sign-in event is published
+
+Scenario: A locked account cannot sign in even with the correct password
+	Given the account "nikhil@example.com" is locked until "2026-08-20T10:45:00Z"
+	When I sign in with email "nikhil@example.com" and password "Sup3rSecret!"
+	Then the sign in fails with the error "This account is temporarily locked. Try again later."
+	And no token is returned
+
+Scenario: A locked account can sign in again once the lock has expired
+	Given the account "nikhil@example.com" is locked until "2026-08-20T10:00:00Z"
+	When I sign in with email "nikhil@example.com" and password "Sup3rSecret!"
+	Then the sign in succeeds
+	And the account "nikhil@example.com" is not locked
+
+Scenario: A successful sign in forgets earlier failed attempts
+	Given the account "nikhil@example.com" has 4 failed sign-in attempts
+	When I sign in with email "nikhil@example.com" and password "Sup3rSecret!"
+	Then the sign in succeeds
+	And the account "nikhil@example.com" has 0 failed sign-in attempts
 
 Scenario Outline: A required detail is missing or invalid
 	When I sign in with email "<email>" and password "<password>"

@@ -1,6 +1,7 @@
 using HexArch.Services.IdentityAccess.Ports.Output.Email;
 using MailKit.Net.Smtp;
 using MailKit.Security;
+using Microsoft.Extensions.Logging;
 using MimeKit;
 
 namespace HexArch.EMail
@@ -8,13 +9,30 @@ namespace HexArch.EMail
     public class SmtpEmailSender : IEmailSender
     {
         private readonly SmtpOptions options;
+        private readonly ILogger<SmtpEmailSender> logger;
 
-        public SmtpEmailSender(SmtpOptions options)
+        public SmtpEmailSender(SmtpOptions options, ILogger<SmtpEmailSender> logger)
         {
             this.options = options;
+            this.logger = logger;
         }
 
         public async Task Send(EmailMessage message, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                await SendViaSmtp(message, cancellationToken);
+            }
+            catch (Exception exception)
+            {
+                // Logged here as well as rethrown: some callers (password reset) must swallow the failure
+                // so it can't reveal whether an account exists, and this is then the only record of it.
+                logger.LogError(exception, "Failed to send email \"{Subject}\".", message.Subject);
+                throw;
+            }
+        }
+
+        private async Task SendViaSmtp(EmailMessage message, CancellationToken cancellationToken)
         {
             var mimeMessage = new MimeMessage();
             mimeMessage.From.Add(MailboxAddress.Parse(options.From));

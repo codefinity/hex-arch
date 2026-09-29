@@ -26,6 +26,18 @@ namespace HexArch.Persistance.Postgres.Configurations
             builder.Property<string>("MobileNo").HasColumnName("mobileno");
             builder.Property<bool>("Active").HasColumnName("active");
             builder.Property<DateTime>("RegisteredOn").HasColumnName("registeredon");
+            builder.Property<Guid>("SecurityStamp").HasColumnName("securitystamp");
+            builder.Property<bool>("EmailVerified").HasColumnName("emailverified");
+            builder.Property<string>("PendingEmail").HasColumnName("pendingemail");
+            builder.Property<string>("EmailVerificationTokenHash").HasColumnName("emailverificationtokenhash");
+            builder.Property<DateTime?>("EmailVerificationTokenExpiresOn").HasColumnName("emailverificationtokenexpireson");
+            builder.Property<string>("PasswordResetTokenHash").HasColumnName("passwordresettokenhash");
+            builder.Property<DateTime?>("PasswordResetTokenExpiresOn").HasColumnName("passwordresettokenexpireson");
+            builder.Property<int>("FailedSignInCount").HasColumnName("failedsignincount");
+            builder.Property<DateTime?>("LockedOutUntil").HasColumnName("lockedoutuntil");
+            builder.Property<string>("DeactivationReason").HasColumnName("deactivationreason");
+            builder.Property<DateTime?>("DeactivatedOn").HasColumnName("deactivatedon");
+            builder.Property<DateTime?>("ClosedOn").HasColumnName("closedon");
 
             builder.HasMany(e => e.Roles)
                    .WithMany()

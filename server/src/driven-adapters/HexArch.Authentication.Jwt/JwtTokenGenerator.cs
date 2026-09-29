@@ -23,7 +23,8 @@ namespace HexArch.Authentication.Jwt
                 new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
                 new(JwtRegisteredClaimNames.Email, user.Email),
                 new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new(ClaimTypes.Name, user.Name)
+                new(ClaimTypes.Name, user.Name),
+                new(HexArchClaimTypes.SecurityStamp, user.SecurityStamp.ToString())
             };
 
             claims.AddRange(user.Roles.Select(role => new Claim(ClaimTypes.Role, role.Name)));

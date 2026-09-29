@@ -1,4 +1,5 @@
 using System.Globalization;
+using HexArch.Events.IdentityAccess;
 using HexArch.Models.IdentityAccess;
 using HexArch.Services.IdentityAccess.Ports.Input.Commands.SignIn;
 using HexArch.Services.Specs.Support;
@@ -21,6 +22,26 @@ namespace HexArch.Services.Specs.StepDefinitions
         public void GivenTheSignInTokenExpiresOn(string utcTimestamp) =>
             context.TokenGenerator.ExpiresOnUtc = ParseUtc(utcTimestamp);
 
+        [Given(@"the sign-in clock is fixed at ""(.*)""")]
+        public void GivenTheSignInClockIsFixedAt(string utcTimestamp) =>
+            context.Clock.UtcNow = ParseUtc(utcTimestamp);
+
+        [Given(@"the account ""(.*)"" is locked until ""(.*)""")]
+        public async Task GivenTheAccountIsLockedUntil(string email, string utcTimestamp)
+        {
+            var user = await context.Users.GetUser(email);
+            user.ShouldNotBeNull();
+            user.LockedOutUntil = ParseUtc(utcTimestamp);
+        }
+
+        [Given(@"the account ""(.*)"" has (\d+) failed sign-in attempts")]
+        public async Task GivenTheAccountHasFailedSignInAttempts(string email, int attempts)
+        {
+            var user = await context.Users.GetUser(email);
+            user.ShouldNotBeNull();
+            user.FailedSignInCount = attempts;
+        }
+
         [Given(@"an active account exists for ""(.*)"" with password ""(.*)""")]
         public void GivenAnActiveAccountExistsForWithPassword(string email, string password) =>
             SeedAccount(email, password, active: true);
@@ -35,6 +56,53 @@ namespace HexArch.Services.Specs.StepDefinitions
             var command = new SignInCommand(email, password);
             context.Result = await context.Handler.Handle(command, CancellationToken.None);
         }
+
+        [When(@"I sign in with email ""(.*)"" and the wrong password (\d+) times")]
+        public async Task WhenISignInWithEmailAndTheWrongPasswordTimes(string email, int attempts)
+        {
+            for (var attempt = 0; attempt < attempts; attempt++)
+            {
+                context.Result = await context.Handler.Handle(new SignInCommand(email, "WrongPassword!"), CancellationToken.None);
+                context.Result.Success.ShouldBeFalse();
+            }
+        }
+
+        [Then(@"the account ""(.*)"" is locked until ""(.*)""")]
+        public async Task ThenTheAccountIsLockedUntil(string email, string utcTimestamp)
+        {
+            var user = await context.Users.GetUser(email);
+            user.ShouldNotBeNull();
+            user.LockedOutUntil.ShouldBe(ParseUtc(utcTimestamp));
+        }
+
+        [Then(@"the account ""(.*)"" is not locked")]
+        public async Task ThenTheAccountIsNotLocked(string email)
+        {
+            var user = await context.Users.GetUser(email);
+            user.ShouldNotBeNull();
+            user.LockedOutUntil.ShouldBeNull();
+        }
+
+        [Then(@"the account ""(.*)"" has (\d+) failed sign-in attempts")]
+        public async Task ThenTheAccountHasFailedSignInAttempts(string email, int attempts)
+        {
+            var user = await context.Users.GetUser(email);
+            user.ShouldNotBeNull();
+            user.FailedSignInCount.ShouldBe(attempts);
+        }
+
+        [Then(@"a ""UserLockedOut"" event is published for ""(.*)""")]
+        public async Task ThenAUserLockedOutEventIsPublishedFor(string email)
+        {
+            var user = await context.Users.GetUser(email);
+            user.ShouldNotBeNull();
+            var published = context.Events.Single<UserLockedOut>();
+            published.UserId.ShouldBe(user.Id);
+            published.LockedOutUntilUtc.ShouldBe(user.LockedOutUntil!.Value);
+        }
+
+        [Then(@"no sign-in event is published")]
+        public void ThenNoSignInEventIsPublished() => context.Events.Published.ShouldBeEmpty();
 
         [Then(@"the sign in succeeds")]
         public void ThenTheSignInSucceeds()

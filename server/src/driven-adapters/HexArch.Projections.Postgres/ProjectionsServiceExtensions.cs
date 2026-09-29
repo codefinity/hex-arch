@@ -22,6 +22,18 @@ namespace HexArch.Projections.Postgres
             services.AddScoped<IEventHandler<UserRegistered>, UserRegisteredProjectionHandler>();
             services.AddScoped<IEventHandler<UserProfileUpdated>, UserProfileUpdatedProjectionHandler>();
 
+            // Every event resolves the same scoped instance rather than a new one per interface.
+            services.AddScoped<UserViewModelProjectionHandler>();
+            services.AddScoped<IEventHandler<UserDeactivated>>(p => p.GetRequiredService<UserViewModelProjectionHandler>());
+            services.AddScoped<IEventHandler<UserReactivated>>(p => p.GetRequiredService<UserViewModelProjectionHandler>());
+            services.AddScoped<IEventHandler<UserRolesChanged>>(p => p.GetRequiredService<UserViewModelProjectionHandler>());
+            services.AddScoped<IEventHandler<UserAccountDetailsUpdated>>(p => p.GetRequiredService<UserViewModelProjectionHandler>());
+            services.AddScoped<IEventHandler<UserEmailVerified>>(p => p.GetRequiredService<UserViewModelProjectionHandler>());
+            services.AddScoped<IEventHandler<UserAccountClosed>>(p => p.GetRequiredService<UserViewModelProjectionHandler>());
+            services.AddScoped<IEventHandler<SellerApplicationSubmitted>>(p => p.GetRequiredService<UserViewModelProjectionHandler>());
+            services.AddScoped<IEventHandler<SellerApplicationApproved>>(p => p.GetRequiredService<UserViewModelProjectionHandler>());
+            services.AddScoped<IEventHandler<SellerApplicationRejected>>(p => p.GetRequiredService<UserViewModelProjectionHandler>());
+
             return services;
         }
     }

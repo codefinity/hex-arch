@@ -11,7 +11,7 @@ namespace HexArch.Services.IdentityAccess.UseCases.RegisterUser
 {
     public class RegisterUserCommandHandler : IRegisterUserCommandHandler
     {
-        private const string DefaultRoleName = "Customer";
+        private const string DefaultRoleName = RoleNames.Customer;
 
         private readonly IValidator<RegisterUserCommand> validator;
         private readonly IUserRepository userRepository;
@@ -68,6 +68,7 @@ namespace HexArch.Services.IdentityAccess.UseCases.RegisterUser
                 MobileNo = command.MobileNo,
                 Active = true,
                 RegisteredOn = clock.UtcNow,
+                SecurityStamp = Guid.NewGuid(),
                 Roles = new List<Role> { defaultRole }
             };
 

@@ -15,7 +15,9 @@ namespace HexArch.Services.IdentityAccess.UseCases.DeactivateUser
             RuleFor(command => command.Reason)
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty()
-                .WithMessage("Reason is required.");
+                .WithMessage("Reason is required.")
+                .MaximumLength(200)
+                .WithMessage("Reason must not exceed 200 characters.");
         }
     }
 }

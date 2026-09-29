@@ -118,6 +118,13 @@ namespace HexArch.Services.Specs.StepDefinitions
             user.Roles.ShouldContain(role => role.Name == roleName);
         }
 
+        [Then(@"that account is issued a security stamp")]
+        public async Task ThenThatAccountIsIssuedASecurityStamp()
+        {
+            var user = await RequireLastRegisteredUser();
+            user.SecurityStamp.ShouldNotBe(Guid.Empty);
+        }
+
         [Then(@"the stored password for ""(.*)"" is not ""(.*)""")]
         public async Task ThenTheStoredPasswordForIsNot(string email, string plainTextPassword)
         {
