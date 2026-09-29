@@ -25,9 +25,6 @@ namespace HexArch.Services.Specs.Support.Fakes
             Record<UserEmailVerified>();
             Record<UserLockedOut>();
             Record<UserAccountClosed>();
-            Record<SellerApplicationSubmitted>();
-            Record<SellerApplicationApproved>();
-            Record<SellerApplicationRejected>();
         }
 
         public IEventDispatcher Object => mock.Object;

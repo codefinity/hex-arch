@@ -19,9 +19,5 @@ namespace HexArch.Services.IdentityAccess.Ports.Output.Queries.ReadModels
         bool EmailVerified,
         string? DeactivationReason,
         DateTime? DeactivatedOn,
-        DateTime? ClosedOn,
-        Guid? SellerApplicationId,
-        string? SellerApplicationStatus,
-        string? BusinessName,
-        DateTime? SellerApplicationSubmittedOn);
+        DateTime? ClosedOn);
 }

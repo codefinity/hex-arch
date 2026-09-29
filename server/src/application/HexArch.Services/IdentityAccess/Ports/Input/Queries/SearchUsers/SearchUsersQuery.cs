@@ -5,7 +5,6 @@ namespace HexArch.Services.IdentityAccess.Ports.Input.Queries.SearchUsers
         string? Search = null,
         string? Role = null,
         bool? Active = null,
-        string? SellerApplicationStatus = null,
         int Page = 1,
         int PageSize = 20);
 }

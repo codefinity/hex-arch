@@ -8,7 +8,5 @@ namespace HexArch.Services.IdentityAccess.Ports.Output.Queries.ReadModels
         bool EmailVerified,
         DateTime RegisteredOn,
         IReadOnlyList<RoleReadModel> Roles,
-        Guid? SellerApplicationId,
-        string? SellerApplicationStatus,
         DateTime? ClosedOn);
 }

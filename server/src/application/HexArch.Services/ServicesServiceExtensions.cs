@@ -1,6 +1,4 @@
 using FluentValidation;
-using HexArch.Services.IdentityAccess.Ports.Input.Commands.ApplyForSellerAccount;
-using HexArch.Services.IdentityAccess.Ports.Input.Commands.ApproveSellerApplication;
 using HexArch.Services.IdentityAccess.Ports.Input.Commands.AssignRole;
 using HexArch.Services.IdentityAccess.Ports.Input.Commands.ChangeEmail;
 using HexArch.Services.IdentityAccess.Ports.Input.Commands.ChangePassword;
@@ -8,7 +6,6 @@ using HexArch.Services.IdentityAccess.Ports.Input.Commands.CloseAccount;
 using HexArch.Services.IdentityAccess.Ports.Input.Commands.DeactivateUser;
 using HexArch.Services.IdentityAccess.Ports.Input.Commands.ReactivateUser;
 using HexArch.Services.IdentityAccess.Ports.Input.Commands.RegisterUser;
-using HexArch.Services.IdentityAccess.Ports.Input.Commands.RejectSellerApplication;
 using HexArch.Services.IdentityAccess.Ports.Input.Commands.RequestEmailVerification;
 using HexArch.Services.IdentityAccess.Ports.Input.Commands.RequestPasswordReset;
 using HexArch.Services.IdentityAccess.Ports.Input.Commands.ResetPassword;
@@ -23,8 +20,6 @@ using HexArch.Services.IdentityAccess.Ports.Input.Queries.SearchUsers;
 using HexArch.Services.IdentityAccess.Ports.Input.Queries.ShowUser;
 using HexArch.Services.IdentityAccess.Ports.Input.Queries.ShowUserProfile;
 using HexArch.Services.IdentityAccess.Ports.Input.Queries.ValidateSession;
-using HexArch.Services.IdentityAccess.UseCases.ApplyForSellerAccount;
-using HexArch.Services.IdentityAccess.UseCases.ApproveSellerApplication;
 using HexArch.Services.IdentityAccess.UseCases.AssignRole;
 using HexArch.Services.IdentityAccess.UseCases.ChangeEmail;
 using HexArch.Services.IdentityAccess.UseCases.ChangePassword;
@@ -32,7 +27,6 @@ using HexArch.Services.IdentityAccess.UseCases.CloseAccount;
 using HexArch.Services.IdentityAccess.UseCases.DeactivateUser;
 using HexArch.Services.IdentityAccess.UseCases.ReactivateUser;
 using HexArch.Services.IdentityAccess.UseCases.RegisterUser;
-using HexArch.Services.IdentityAccess.UseCases.RejectSellerApplication;
 using HexArch.Services.IdentityAccess.UseCases.RequestEmailVerification;
 using HexArch.Services.IdentityAccess.UseCases.RequestPasswordReset;
 using HexArch.Services.IdentityAccess.UseCases.ResetPassword;
@@ -117,15 +111,6 @@ namespace HexArch.Services
 
             services.AddScoped<IShowUserQueryHandler, ShowUserQueryHandler>();
             services.AddSingleton<IValidator<ShowUserQuery>, ShowUserQueryValidator>();
-
-            services.AddScoped<IApplyForSellerAccountCommandHandler, ApplyForSellerAccountCommandHandler>();
-            services.AddSingleton<IValidator<ApplyForSellerAccountCommand>, ApplyForSellerAccountCommandValidator>();
-
-            services.AddScoped<IApproveSellerApplicationCommandHandler, ApproveSellerApplicationCommandHandler>();
-            services.AddSingleton<IValidator<ApproveSellerApplicationCommand>, ApproveSellerApplicationCommandValidator>();
-
-            services.AddScoped<IRejectSellerApplicationCommandHandler, RejectSellerApplicationCommandHandler>();
-            services.AddSingleton<IValidator<RejectSellerApplicationCommand>, RejectSellerApplicationCommandValidator>();
 
             return services;
         }

@@ -1,12 +1,9 @@
 using HexArch.Models.IdentityAccess;
-using HexArch.Services.IdentityAccess.Ports.Input.Commands.ApplyForSellerAccount;
-using HexArch.Services.IdentityAccess.Ports.Input.Commands.ApproveSellerApplication;
 using HexArch.Services.IdentityAccess.Ports.Input.Commands.AssignRole;
 using HexArch.Services.IdentityAccess.Ports.Input.Commands.ChangeEmail;
 using HexArch.Services.IdentityAccess.Ports.Input.Commands.ChangePassword;
 using HexArch.Services.IdentityAccess.Ports.Input.Commands.CloseAccount;
 using HexArch.Services.IdentityAccess.Ports.Input.Commands.ReactivateUser;
-using HexArch.Services.IdentityAccess.Ports.Input.Commands.RejectSellerApplication;
 using HexArch.Services.IdentityAccess.Ports.Input.Commands.RequestEmailVerification;
 using HexArch.Services.IdentityAccess.Ports.Input.Commands.RequestPasswordReset;
 using HexArch.Services.IdentityAccess.Ports.Input.Commands.ResetPassword;
@@ -18,14 +15,11 @@ using HexArch.Services.IdentityAccess.Ports.Input.Commands.VerifyEmail;
 using HexArch.Services.IdentityAccess.Ports.Input.Queries.SearchUsers;
 using HexArch.Services.IdentityAccess.Ports.Input.Queries.ShowUser;
 using HexArch.Services.IdentityAccess.Ports.Input.Queries.ValidateSession;
-using HexArch.Services.IdentityAccess.UseCases.ApplyForSellerAccount;
-using HexArch.Services.IdentityAccess.UseCases.ApproveSellerApplication;
 using HexArch.Services.IdentityAccess.UseCases.AssignRole;
 using HexArch.Services.IdentityAccess.UseCases.ChangeEmail;
 using HexArch.Services.IdentityAccess.UseCases.ChangePassword;
 using HexArch.Services.IdentityAccess.UseCases.CloseAccount;
 using HexArch.Services.IdentityAccess.UseCases.ReactivateUser;
-using HexArch.Services.IdentityAccess.UseCases.RejectSellerApplication;
 using HexArch.Services.IdentityAccess.UseCases.RequestEmailVerification;
 using HexArch.Services.IdentityAccess.UseCases.RequestPasswordReset;
 using HexArch.Services.IdentityAccess.UseCases.ResetPassword;
@@ -61,7 +55,6 @@ namespace HexArch.Services.Specs.Support
         public InMemoryUserRepository Users { get; } = new();
         public InMemoryRoleRepository Roles { get; } = new();
         public InMemoryProfileRepository Profiles { get; } = new();
-        public InMemorySellerApplicationRepository SellerApplications { get; } = new();
         public InMemoryUserProfileQuery UserProfiles { get; } = new();
         public InMemoryUserSearchQuery UserSearch { get; } = new();
         public FakeCurrentUserProvider CurrentUser { get; } = new();
@@ -154,15 +147,6 @@ namespace HexArch.Services.Specs.Support
 
         public ICloseAccountCommandHandler CloseAccount => new CloseAccountCommandHandler(
             new CloseAccountCommandValidator(), CurrentUser.Object, Users.Object, Profiles.Object, Hasher.Object, Clock.Object, Events.Object);
-
-        public IApplyForSellerAccountCommandHandler ApplyForSellerAccount => new ApplyForSellerAccountCommandHandler(
-            new ApplyForSellerAccountCommandValidator(), CurrentUser.Object, Users.Object, SellerApplications.Object, Clock.Object, Events.Object);
-
-        public IApproveSellerApplicationCommandHandler ApproveSellerApplication => new ApproveSellerApplicationCommandHandler(
-            new ApproveSellerApplicationCommandValidator(), CurrentUser.Object, SellerApplications.Object, Users.Object, Roles.Object, Clock.Object, Events.Object);
-
-        public IRejectSellerApplicationCommandHandler RejectSellerApplication => new RejectSellerApplicationCommandHandler(
-            new RejectSellerApplicationCommandValidator(), CurrentUser.Object, SellerApplications.Object, Clock.Object, Events.Object);
 
         public ISearchUsersQueryHandler SearchUsers => new SearchUsersQueryHandler(
             new SearchUsersQueryValidator(), UserSearch.Object);

@@ -106,7 +106,7 @@ namespace HexArch.Services.Specs.Features
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/SearchUsers.feature.ndjson", 10);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/SearchUsers.feature.ndjson", 9);
         }
         
         async System.Threading.Tasks.ValueTask Xunit.IAsyncLifetime.InitializeAsync()
@@ -192,22 +192,20 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             else
             {
                 await this.ScenarioStartAsync();
-                global::Reqnroll.Table table11 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table1 = new global::Reqnroll.Table(new string[] {
                             "Search",
                             "Role",
                             "Active",
-                            "SellerApplicationStatus",
                             "Page",
                             "PageSize"});
-                table11.AddRow(new string[] {
+                table1.AddRow(new string[] {
                             "nik",
                             "Seller",
                             "true",
-                            "Pending",
                             "3",
                             "10"});
 #line 13
- await testRunner.WhenAsync("I search users with:", ((string)(null)), table11, "When ");
+ await testRunner.WhenAsync("I search users with:", ((string)(null)), table1, "When ");
 #line hidden
 #line 16
  await testRunner.ThenAsync("the request succeeds", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -216,8 +214,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
  await testRunner.AndAsync("the search skips 20 users and takes 10", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 18
- await testRunner.AndAsync("the search filters on \"nik\", role \"Seller\", active \"true\" and seller application " +
-                        "status \"Pending\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+ await testRunner.AndAsync("the search filters on \"nik\", role \"Seller\" and active \"true\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -263,18 +260,16 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
         [global::Xunit.TheoryAttribute(DisplayName="The request is invalid")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Search users")]
         [global::Xunit.TraitAttribute("Description", "The request is invalid")]
-        [global::Xunit.InlineDataAttribute("0", "20", "", "Page must be at least 1.", "3", new string[0])]
-        [global::Xunit.InlineDataAttribute("1", "0", "", "Page size must be between 1 and 100.", "4", new string[0])]
-        [global::Xunit.InlineDataAttribute("1", "101", "", "Page size must be between 1 and 100.", "5", new string[0])]
-        [global::Xunit.InlineDataAttribute("1", "20", "Maybe", "Seller application status must be Pending, Approved or Rejected.", "6", new string[0])]
-        [global::Xunit.InlineDataAttribute("1", "20", "1", "Seller application status must be Pending, Approved or Rejected.", "7", new string[0])]
-        public async global::System.Threading.Tasks.Task TheRequestIsInvalid(string page, string pageSize, string sellerApplicationStatus, string error, string @__pickleIndex, string[] exampleTags)
+        [global::Xunit.InlineDataAttribute("", "0", "20", "Page must be at least 1.", "3", new string[0])]
+        [global::Xunit.InlineDataAttribute("", "1", "0", "Page size must be between 1 and 100.", "4", new string[0])]
+        [global::Xunit.InlineDataAttribute("", "1", "101", "Page size must be between 1 and 100.", "5", new string[0])]
+        public async global::System.Threading.Tasks.Task TheRequestIsInvalid(string search, string page, string pageSize, string error, string @__pickleIndex, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("search", search);
             argumentsOfScenario.Add("page", page);
             argumentsOfScenario.Add("pageSize", pageSize);
-            argumentsOfScenario.Add("sellerApplicationStatus", sellerApplicationStatus);
             argumentsOfScenario.Add("error", error);
             string pickleIndex = @__pickleIndex;
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("The request is invalid", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
@@ -290,25 +285,54 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             else
             {
                 await this.ScenarioStartAsync();
-                global::Reqnroll.Table table12 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table2 = new global::Reqnroll.Table(new string[] {
                             "Search",
                             "Role",
                             "Active",
-                            "SellerApplicationStatus",
                             "Page",
                             "PageSize"});
-                table12.AddRow(new string[] {
+                table2.AddRow(new string[] {
+                            string.Format("{0}", search),
                             "",
                             "",
-                            "",
-                            string.Format("{0}", sellerApplicationStatus),
                             string.Format("{0}", page),
                             string.Format("{0}", pageSize)});
 #line 27
- await testRunner.WhenAsync("I search users with:", ((string)(null)), table12, "When ");
+ await testRunner.WhenAsync("I search users with:", ((string)(null)), table2, "When ");
 #line hidden
 #line 30
  await testRunner.ThenAsync(string.Format("the request fails with the error \"{0}\"", error), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Xunit.FactAttribute(DisplayName="The search text is too long")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Search users")]
+        [global::Xunit.TraitAttribute("Description", "The search text is too long")]
+        public async global::System.Threading.Tasks.Task TheSearchTextIsTooLong()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "6";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("The search text is too long", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 38
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 39
+ await testRunner.WhenAsync("I search users for text of 201 characters", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 40
+ await testRunner.ThenAsync("the request fails with the error \"Search must not exceed 200 characters.\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

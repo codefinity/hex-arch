@@ -40,11 +40,7 @@ namespace HexArch.Services.Specs.StepDefinitions
                 EmailVerified: true,
                 DeactivationReason: null,
                 DeactivatedOn: null,
-                ClosedOn: null,
-                SellerApplicationId: null,
-                SellerApplicationStatus: null,
-                BusinessName: null,
-                SellerApplicationSubmittedOn: null));
+                ClosedOn: null));
 
             context.CurrentUser.UserId = userId;
         }

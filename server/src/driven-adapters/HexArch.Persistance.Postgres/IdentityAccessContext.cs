@@ -14,7 +14,6 @@ namespace HexArch.Persistance.Postgres
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Role { get; set; }
         public DbSet<Profile> Profiles { get; set; }
-        public DbSet<SellerApplication> SellerApplications { get; set; }
         public IdentityAccessContext(DbContextOptions<IdentityAccessContext> options) : base(options)
         {
 
@@ -37,7 +36,6 @@ namespace HexArch.Persistance.Postgres
             modelBuilder.ApplyConfiguration(new UserEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new RoleEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new ProfileEntityTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new SellerApplicationEntityTypeConfiguration());
             //modelBuilder.ApplyConfiguration(new UserRoleEntityTypeConfiguration());
         }
     }

@@ -30,9 +30,6 @@ namespace HexArch.Projections.Postgres
             services.AddScoped<IEventHandler<UserAccountDetailsUpdated>>(p => p.GetRequiredService<UserViewModelProjectionHandler>());
             services.AddScoped<IEventHandler<UserEmailVerified>>(p => p.GetRequiredService<UserViewModelProjectionHandler>());
             services.AddScoped<IEventHandler<UserAccountClosed>>(p => p.GetRequiredService<UserViewModelProjectionHandler>());
-            services.AddScoped<IEventHandler<SellerApplicationSubmitted>>(p => p.GetRequiredService<UserViewModelProjectionHandler>());
-            services.AddScoped<IEventHandler<SellerApplicationApproved>>(p => p.GetRequiredService<UserViewModelProjectionHandler>());
-            services.AddScoped<IEventHandler<SellerApplicationRejected>>(p => p.GetRequiredService<UserViewModelProjectionHandler>());
 
             return services;
         }

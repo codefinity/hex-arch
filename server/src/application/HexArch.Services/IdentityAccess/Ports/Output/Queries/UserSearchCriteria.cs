@@ -5,7 +5,6 @@ namespace HexArch.Services.IdentityAccess.Ports.Output.Queries
         string? Search,
         string? Role,
         bool? Active,
-        string? SellerApplicationStatus,
         int Offset,
         int Limit);
 }

@@ -24,23 +24,19 @@ namespace HexArch.Services.Specs.StepDefinitions
         public void GivenTheUserSearchMatchesUsersInTotal(int total) =>
             context.UserSearch.Page = new UserSearchPage(Array.Empty<UserSummaryReadModel>(), total);
 
-        [Given(@"the user ""([^""]*)"" has a projected view with a pending seller application")]
-        public void GivenTheUserHasAProjectedViewWithAPendingSellerApplication(string email)
+        [Given(@"the user ""([^""]*)"" has a projected view with the roles ""([^""]*)""")]
+        public void GivenTheUserHasAProjectedViewWithTheRoles(string email, string roles)
         {
             var userId = Guid.NewGuid();
             context.AccountIds[email] = userId;
             context.UserProfiles.Seed(new UserProfileReadModel(
                 userId, "Existing User", email, "0000000000", true, DateTime.UtcNow,
-                new[] { new RoleReadModel(Guid.NewGuid(), "Customer") },
+                AccountStepDefinitions.ParseList(roles).Select(name => new RoleReadModel(Guid.NewGuid(), name)).ToArray(),
                 null, null, null, null, null, DateTime.UtcNow,
                 EmailVerified: true,
                 DeactivationReason: null,
                 DeactivatedOn: null,
-                ClosedOn: null,
-                SellerApplicationId: Guid.NewGuid(),
-                SellerApplicationStatus: "Pending",
-                BusinessName: "Existing Business",
-                SellerApplicationSubmittedOn: DateTime.UtcNow));
+                ClosedOn: null));
         }
 
         [When(@"I search users with no filters")]
@@ -54,10 +50,13 @@ namespace HexArch.Services.Specs.StepDefinitions
                 NullIfEmpty(row["Search"]),
                 NullIfEmpty(row["Role"]),
                 string.IsNullOrEmpty(row["Active"]) ? null : bool.Parse(row["Active"]),
-                NullIfEmpty(row["SellerApplicationStatus"]),
                 int.Parse(row["Page"]),
                 int.Parse(row["PageSize"])));
         }
+
+        [When(@"I search users for text of (\d+) characters")]
+        public Task WhenISearchUsersForTextOfCharacters(int length) =>
+            Search(new SearchUsersQuery(Search: new string('a', length)));
 
         [When(@"an administrator views the user ""([^""]*)""")]
         public Task WhenAnAdministratorViewsTheUser(string email) => Show(context.AccountIds[email]);
@@ -83,17 +82,15 @@ namespace HexArch.Services.Specs.StepDefinitions
             criteria.Search.ShouldBeNull();
             criteria.Role.ShouldBeNull();
             criteria.Active.ShouldBeNull();
-            criteria.SellerApplicationStatus.ShouldBeNull();
         }
 
-        [Then(@"the search filters on ""([^""]*)"", role ""([^""]*)"", active ""([^""]*)"" and seller application status ""([^""]*)""")]
-        public void ThenTheSearchFiltersOn(string search, string role, string active, string sellerApplicationStatus)
+        [Then(@"the search filters on ""([^""]*)"", role ""([^""]*)"" and active ""([^""]*)""")]
+        public void ThenTheSearchFiltersOn(string search, string role, string active)
         {
             var criteria = context.UserSearch.LastCriteria.ShouldNotBeNull();
             criteria.Search.ShouldBe(search);
             criteria.Role.ShouldBe(role);
             criteria.Active.ShouldBe(bool.Parse(active));
-            criteria.SellerApplicationStatus.ShouldBe(sellerApplicationStatus);
         }
 
         [Then(@"the result reports (\d+) users in total")]
@@ -106,9 +103,9 @@ namespace HexArch.Services.Specs.StepDefinitions
         [Then(@"the user shown has the email ""([^""]*)""")]
         public void ThenTheUserShownHasTheEmail(string email) => RequireShownUser().Email.ShouldBe(email);
 
-        [Then(@"the user shown has a ""([^""]*)"" seller application")]
-        public void ThenTheUserShownHasASellerApplication(string status) =>
-            RequireShownUser().SellerApplicationStatus.ShouldBe(status);
+        [Then(@"the user shown holds the roles ""([^""]*)""")]
+        public void ThenTheUserShownHoldsTheRoles(string roles) =>
+            RequireShownUser().Roles.Select(role => role.Name).ShouldBe(AccountStepDefinitions.ParseList(roles), ignoreOrder: true);
 
         private async Task Search(SearchUsersQuery query)
         {

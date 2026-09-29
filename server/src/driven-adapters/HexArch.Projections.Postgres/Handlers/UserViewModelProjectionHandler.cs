@@ -15,10 +15,7 @@ namespace HexArch.Projections.Postgres.Handlers
         IEventHandler<UserRolesChanged>,
         IEventHandler<UserAccountDetailsUpdated>,
         IEventHandler<UserEmailVerified>,
-        IEventHandler<UserAccountClosed>,
-        IEventHandler<SellerApplicationSubmitted>,
-        IEventHandler<SellerApplicationApproved>,
-        IEventHandler<SellerApplicationRejected>
+        IEventHandler<UserAccountClosed>
     {
         private readonly UserViewModelProjector projector;
         private readonly ILogger<UserViewModelProjectionHandler> logger;
@@ -45,15 +42,6 @@ namespace HexArch.Projections.Postgres.Handlers
             Refresh(domainEvent.UserId, cancellationToken);
 
         public Task Handle(UserAccountClosed domainEvent, CancellationToken cancellationToken = default) =>
-            Refresh(domainEvent.UserId, cancellationToken);
-
-        public Task Handle(SellerApplicationSubmitted domainEvent, CancellationToken cancellationToken = default) =>
-            Refresh(domainEvent.UserId, cancellationToken);
-
-        public Task Handle(SellerApplicationApproved domainEvent, CancellationToken cancellationToken = default) =>
-            Refresh(domainEvent.UserId, cancellationToken);
-
-        public Task Handle(SellerApplicationRejected domainEvent, CancellationToken cancellationToken = default) =>
             Refresh(domainEvent.UserId, cancellationToken);
 
         private async Task Refresh(Guid userId, CancellationToken cancellationToken)

@@ -30,7 +30,6 @@ namespace HexArch.Services.IdentityAccess.UseCases.SearchUsers
                 string.IsNullOrWhiteSpace(query.Search) ? null : query.Search.Trim(),
                 string.IsNullOrWhiteSpace(query.Role) ? null : query.Role,
                 query.Active,
-                string.IsNullOrWhiteSpace(query.SellerApplicationStatus) ? null : query.SellerApplicationStatus,
                 Offset: (query.Page - 1) * query.PageSize,
                 Limit: query.PageSize);
 

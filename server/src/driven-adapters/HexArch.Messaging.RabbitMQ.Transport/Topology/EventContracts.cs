@@ -32,9 +32,6 @@ namespace HexArch.Messaging.RabbitMQ.Transport.Topology
             [typeof(UserEmailVerified)] = "identity-access.user.email-verified.v1",
             [typeof(UserLockedOut)] = "identity-access.user.locked-out.v1",
             [typeof(UserAccountClosed)] = "identity-access.user.account-closed.v1",
-            [typeof(SellerApplicationSubmitted)] = "identity-access.seller-application.submitted.v1",
-            [typeof(SellerApplicationApproved)] = "identity-access.seller-application.approved.v1",
-            [typeof(SellerApplicationRejected)] = "identity-access.seller-application.rejected.v1",
             [typeof(FraudDetected)] = "payment.fraud.detected.v1",
             [typeof(FraudCleared)] = "payment.fraud.cleared.v1"
         };

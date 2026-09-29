@@ -8,8 +8,7 @@ BEGIN
     INSERT INTO viewmodels.userviewmodel (
         userid, name, email, mobileno, active, registeredon,
         roles, bio, address, dateofbirth, avatarurl, profileupdatedon, projectedon,
-        emailverified, deactivationreason, deactivatedon, closedon,
-        sellerapplicationid, sellerapplicationstatus, businessname, sellerapplicationsubmittedon)
+        emailverified, deactivationreason, deactivatedon, closedon)
     SELECT
         u.id, u.name, u.email, u.mobileno, u.active, u.registeredon,
         COALESCE(
@@ -20,16 +19,9 @@ BEGIN
             '[]'::jsonb),
         p.bio, p.address, p.dateofbirth, p.avatarurl, p.updatedon,
         now() AT TIME ZONE 'utc',
-        u.emailverified, u.deactivationreason, u.deactivatedon, u.closedon,
-        a.id, a.status, a.businessname, a.submittedon
+        u.emailverified, u.deactivationreason, u.deactivatedon, u.closedon
       FROM users.users u
       LEFT JOIN users.profiles p ON p.userid = u.id
-      LEFT JOIN LATERAL (
-            SELECT sa.id, sa.status, sa.businessname, sa.submittedon
-              FROM users.sellerapplications sa
-             WHERE sa.userid = u.id
-             ORDER BY sa.submittedon DESC, sa.id
-             LIMIT 1) a ON true
      WHERE u.id = p_userid
     ON CONFLICT (userid) DO UPDATE SET
         name             = EXCLUDED.name,
@@ -47,11 +39,7 @@ BEGIN
         emailverified    = EXCLUDED.emailverified,
         deactivationreason = EXCLUDED.deactivationreason,
         deactivatedon    = EXCLUDED.deactivatedon,
-        closedon         = EXCLUDED.closedon,
-        sellerapplicationid          = EXCLUDED.sellerapplicationid,
-        sellerapplicationstatus      = EXCLUDED.sellerapplicationstatus,
-        businessname                 = EXCLUDED.businessname,
-        sellerapplicationsubmittedon = EXCLUDED.sellerapplicationsubmittedon;
+        closedon         = EXCLUDED.closedon;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -62,16 +50,13 @@ RETURNS TABLE (
     userid UUID, name VARCHAR, email VARCHAR, mobileno VARCHAR, active BOOLEAN,
     registeredon TIMESTAMP, roles JSONB, bio VARCHAR, address VARCHAR,
     dateofbirth TIMESTAMP, avatarurl VARCHAR, profileupdatedon TIMESTAMP, projectedon TIMESTAMP,
-    emailverified BOOLEAN, deactivationreason VARCHAR, deactivatedon TIMESTAMP, closedon TIMESTAMP,
-    sellerapplicationid UUID, sellerapplicationstatus VARCHAR, businessname VARCHAR,
-    sellerapplicationsubmittedon TIMESTAMP
+    emailverified BOOLEAN, deactivationreason VARCHAR, deactivatedon TIMESTAMP, closedon TIMESTAMP
 ) AS $$
 BEGIN
     RETURN QUERY
     SELECT v.userid, v.name, v.email, v.mobileno, v.active, v.registeredon, v.roles,
            v.bio, v.address, v.dateofbirth, v.avatarurl, v.profileupdatedon, v.projectedon,
-           v.emailverified, v.deactivationreason, v.deactivatedon, v.closedon,
-           v.sellerapplicationid, v.sellerapplicationstatus, v.businessname, v.sellerapplicationsubmittedon
+           v.emailverified, v.deactivationreason, v.deactivatedon, v.closedon
       FROM viewmodels.userviewmodel v
      WHERE v.userid = p_userid;
 END;
@@ -81,27 +66,23 @@ $$ LANGUAGE plpgsql;
 -- matches everything). p_search matches name or email, case-insensitively. totalcount is the number
 -- of matching rows across all pages.
 CREATE OR REPLACE FUNCTION viewmodels.search_user_viewmodels(
-    p_search TEXT, p_role TEXT, p_active BOOLEAN, p_sellerapplicationstatus TEXT,
-    p_offset INTEGER, p_limit INTEGER)
+    p_search TEXT, p_role TEXT, p_active BOOLEAN, p_offset INTEGER, p_limit INTEGER)
 RETURNS TABLE (
     userid UUID, name VARCHAR, email VARCHAR, active BOOLEAN, emailverified BOOLEAN,
-    registeredon TIMESTAMP, roles JSONB, sellerapplicationid UUID, sellerapplicationstatus VARCHAR,
-    closedon TIMESTAMP, totalcount BIGINT
+    registeredon TIMESTAMP, roles JSONB, closedon TIMESTAMP, totalcount BIGINT
 ) AS $$
 DECLARE
     -- Escape LIKE wildcards so a search for "a_b" or "50%" matches literally.
     pattern TEXT := '%' || replace(replace(replace(p_search, '\', '\\'), '%', '\%'), '_', '\_') || '%';
 BEGIN
     RETURN QUERY
-    SELECT v.userid, v.name, v.email, v.active, v.emailverified, v.registeredon, v.roles,
-           v.sellerapplicationid, v.sellerapplicationstatus, v.closedon,
+    SELECT v.userid, v.name, v.email, v.active, v.emailverified, v.registeredon, v.roles, v.closedon,
            count(*) OVER ()
       FROM viewmodels.userviewmodel v
      WHERE (p_search IS NULL OR v.name ILIKE pattern OR v.email ILIKE pattern)
        -- Containment, so the GIN index on roles can serve it.
        AND (p_role IS NULL OR v.roles @> jsonb_build_array(jsonb_build_object('name', p_role)))
        AND (p_active IS NULL OR v.active = p_active)
-       AND (p_sellerapplicationstatus IS NULL OR v.sellerapplicationstatus = p_sellerapplicationstatus)
      ORDER BY v.registeredon DESC, v.userid
     OFFSET p_offset
      LIMIT p_limit;
@@ -123,12 +104,6 @@ BEGIN
           FROM users.users u
           LEFT JOIN viewmodels.userviewmodel v ON v.userid = u.id
           LEFT JOIN users.profiles p      ON p.userid = u.id
-          LEFT JOIN LATERAL (
-                SELECT sa.id, sa.status, sa.businessname, sa.submittedon
-                  FROM users.sellerapplications sa
-                 WHERE sa.userid = u.id
-                 ORDER BY sa.submittedon DESC, sa.id
-                 LIMIT 1) a ON true
          WHERE v.userid IS NULL
             OR v.name       IS DISTINCT FROM u.name
             OR v.email      IS DISTINCT FROM u.email
@@ -143,10 +118,6 @@ BEGIN
             OR v.avatarurl  IS DISTINCT FROM p.avatarurl
             OR v.dateofbirth      IS DISTINCT FROM p.dateofbirth
             OR v.profileupdatedon IS DISTINCT FROM p.updatedon
-            OR v.sellerapplicationid          IS DISTINCT FROM a.id
-            OR v.sellerapplicationstatus      IS DISTINCT FROM a.status
-            OR v.businessname                 IS DISTINCT FROM a.businessname
-            OR v.sellerapplicationsubmittedon IS DISTINCT FROM a.submittedon
             OR v.roles IS DISTINCT FROM COALESCE(
                    (SELECT jsonb_agg(jsonb_build_object('id', r.id, 'name', r.name) ORDER BY r.name)
                       FROM users.userroles ur JOIN users.roles r ON r.id = ur.rolesid WHERE ur.userid = u.id),

@@ -60,8 +60,6 @@ namespace HexArch.Messaging.RabbitMQ.Transport.Topology
             builder.WorkQueue("notifications.welcome-email", identityAccess, EventContracts.For<UserRegistered>());
             builder.WorkQueue("notifications.password-changed", identityAccess, EventContracts.For<UserPasswordChanged>());
             builder.WorkQueue("projections.user-view-model", identityAccess, "identity-access.user.#");
-            // The user view model also shows each user's latest seller application.
-            builder.Bind("projections.user-view-model", identityAccess, "identity-access.seller-application.#");
             builder.WorkQueue("analytics.firehose", identityAccess, "#");
 
             // Deactivates a user on a fraud alert. This one is actually drained — see
@@ -167,23 +165,6 @@ namespace HexArch.Messaging.RabbitMQ.Transport.Topology
                 bindings.Add(new BindingDefinition(queue, exchange, bindingKey));
                 bindings.Add(new BindingDefinition(queue, RetryExchange(prefix), queue));
                 bindings.Add(new BindingDefinition(deadQueue, DeadLetterExchange(prefix), deadQueue));
-            }
-
-            /// <summary>
-            /// Adds one more binding key to a work queue <see cref="WorkQueue"/> already declared, for a
-            /// consumer that needs events one pattern cannot match. The retry and dead-letter wiring is
-            /// per queue, not per binding, so nothing else is needed.
-            /// </summary>
-            public void Bind(string queue, string exchange, string bindingKey)
-            {
-                queue = PrefixedQueue(prefix, queue);
-
-                if (!queues.Any(existing => existing.Name == queue))
-                {
-                    throw new InvalidOperationException($"Declare work queue '{queue}' before adding bindings to it.");
-                }
-
-                bindings.Add(new BindingDefinition(queue, exchange, bindingKey));
             }
 
             public MessagingTopology Build() => new(exchanges, queues, bindings);

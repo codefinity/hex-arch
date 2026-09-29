@@ -52,12 +52,11 @@ namespace HexArch.API.Controllers.IdentityAccess
             [FromQuery] string? search,
             [FromQuery] string? role,
             [FromQuery] bool? active,
-            [FromQuery] string? sellerApplicationStatus,
             CancellationToken cancellationToken,
             [FromQuery] int page = 1,
             [FromQuery] int pageSize = 20)
         {
-            var query = new SearchUsersQuery(search, role, active, sellerApplicationStatus, page, pageSize);
+            var query = new SearchUsersQuery(search, role, active, page, pageSize);
             var result = await searchUsersQueryHandler.Handle(query, cancellationToken);
 
             if (!result.Success)

@@ -8,7 +8,7 @@ namespace HexArch.Queries.Postgres
     public sealed class UserSearchQuery : IUserSearchQuery
     {
         private const string Sql =
-            "SELECT * FROM viewmodels.search_user_viewmodels(@Search, @Role, @Active, @SellerApplicationStatus, @Offset, @Limit)";
+            "SELECT * FROM viewmodels.search_user_viewmodels(@Search, @Role, @Active, @Offset, @Limit)";
 
         private readonly NpgsqlDataSource dataSource;
 
@@ -31,8 +31,7 @@ namespace HexArch.Queries.Postgres
 
             var users = rows.Select(row => new UserSummaryReadModel(
                 row.UserId, row.Name, row.Email, row.Active, row.EmailVerified, row.RegisteredOn,
-                row.Roles ?? Array.Empty<RoleReadModel>(),
-                row.SellerApplicationId, row.SellerApplicationStatus, row.ClosedOn)).ToList();
+                row.Roles ?? Array.Empty<RoleReadModel>(), row.ClosedOn)).ToList();
 
             return new UserSearchPage(users, totalCount);
         }
@@ -60,8 +59,6 @@ namespace HexArch.Queries.Postgres
             public bool EmailVerified { get; init; }
             public DateTime RegisteredOn { get; init; }
             public IReadOnlyList<RoleReadModel>? Roles { get; init; }
-            public Guid? SellerApplicationId { get; init; }
-            public string? SellerApplicationStatus { get; init; }
             public DateTime? ClosedOn { get; init; }
             public long TotalCount { get; init; }
         }

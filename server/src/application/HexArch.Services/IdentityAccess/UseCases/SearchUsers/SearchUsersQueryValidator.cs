@@ -1,5 +1,4 @@
 using FluentValidation;
-using HexArch.Models.IdentityAccess;
 using HexArch.Services.IdentityAccess.Ports.Input.Queries.SearchUsers;
 
 namespace HexArch.Services.IdentityAccess.UseCases.SearchUsers
@@ -21,12 +20,6 @@ namespace HexArch.Services.IdentityAccess.UseCases.SearchUsers
             RuleFor(query => query.Search)
                 .MaximumLength(200)
                 .WithMessage("Search must not exceed 200 characters.");
-
-            RuleFor(query => query.SellerApplicationStatus)
-                // Names only: Enum.TryParse would also accept numeric strings such as "1".
-                .Must(status => Enum.GetNames<SellerApplicationStatus>().Contains(status))
-                .When(query => !string.IsNullOrWhiteSpace(query.SellerApplicationStatus))
-                .WithMessage("Seller application status must be Pending, Approved or Rejected.");
         }
     }
 }

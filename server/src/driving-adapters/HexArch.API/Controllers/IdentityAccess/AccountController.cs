@@ -1,4 +1,3 @@
-using HexArch.Services.IdentityAccess.Ports.Input.Commands.ApplyForSellerAccount;
 using HexArch.Services.IdentityAccess.Ports.Input.Commands.ChangeEmail;
 using HexArch.Services.IdentityAccess.Ports.Input.Commands.ChangePassword;
 using HexArch.Services.IdentityAccess.Ports.Input.Commands.CloseAccount;
@@ -22,7 +21,6 @@ namespace HexArch.API.Controllers.IdentityAccess
         private readonly IRequestEmailVerificationCommandHandler requestEmailVerificationCommandHandler;
         private readonly IVerifyEmailCommandHandler verifyEmailCommandHandler;
         private readonly ICloseAccountCommandHandler closeAccountCommandHandler;
-        private readonly IApplyForSellerAccountCommandHandler applyForSellerAccountCommandHandler;
 
         public AccountController(
             IUpdateAccountDetailsCommandHandler updateAccountDetailsCommandHandler,
@@ -30,8 +28,7 @@ namespace HexArch.API.Controllers.IdentityAccess
             IChangeEmailCommandHandler changeEmailCommandHandler,
             IRequestEmailVerificationCommandHandler requestEmailVerificationCommandHandler,
             IVerifyEmailCommandHandler verifyEmailCommandHandler,
-            ICloseAccountCommandHandler closeAccountCommandHandler,
-            IApplyForSellerAccountCommandHandler applyForSellerAccountCommandHandler)
+            ICloseAccountCommandHandler closeAccountCommandHandler)
         {
             this.updateAccountDetailsCommandHandler = updateAccountDetailsCommandHandler;
             this.changePasswordCommandHandler = changePasswordCommandHandler;
@@ -39,7 +36,6 @@ namespace HexArch.API.Controllers.IdentityAccess
             this.requestEmailVerificationCommandHandler = requestEmailVerificationCommandHandler;
             this.verifyEmailCommandHandler = verifyEmailCommandHandler;
             this.closeAccountCommandHandler = closeAccountCommandHandler;
-            this.applyForSellerAccountCommandHandler = applyForSellerAccountCommandHandler;
         }
 
         [HttpPut("details")]
@@ -120,19 +116,6 @@ namespace HexArch.API.Controllers.IdentityAccess
             }
 
             return NoContent();
-        }
-
-        [HttpPost("seller-application")]
-        public async Task<IActionResult> ApplyForSellerAccount(ApplyForSellerAccountCommand command, CancellationToken cancellationToken)
-        {
-            var result = await applyForSellerAccountCommandHandler.Handle(command, cancellationToken);
-
-            if (!result.Success)
-            {
-                return BadRequest(result.Errors);
-            }
-
-            return Ok(new { applicationId = result.ApplicationId });
         }
     }
 }

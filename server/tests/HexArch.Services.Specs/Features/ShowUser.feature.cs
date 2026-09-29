@@ -156,8 +156,8 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             {
                 await this.ScenarioStartAsync();
 #line 7
- await testRunner.GivenAsync("the user \"nikhil@example.com\" has a projected view with a pending seller applicat" +
-                        "ion", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+ await testRunner.GivenAsync("the user \"nikhil@example.com\" has a projected view with the roles \"Customer,Selle" +
+                        "r\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 8
  await testRunner.WhenAsync("an administrator views the user \"nikhil@example.com\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
@@ -169,7 +169,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
  await testRunner.AndAsync("the user shown has the email \"nikhil@example.com\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 11
- await testRunner.AndAsync("the user shown has a \"Pending\" seller application", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+ await testRunner.AndAsync("the user shown holds the roles \"Customer,Seller\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
