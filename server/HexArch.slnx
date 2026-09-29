@@ -1,0 +1,27 @@
+<Solution>
+  <Folder Name="/driving-adapters/">
+    <Project Path="src/driving-adapters/HexArch.API/HexArch.API.csproj" Id="b0b6be8c-784e-4074-9dee-4a3f091b02ec" />
+    <Project Path="src/driving-adapters/HexArch.Listener.RabbitMQ/HexArch.Listener.RabbitMQ.csproj" />
+  </Folder>
+  <Folder Name="/application/">
+    <Project Path="src/application/HexArch.Models/HexArch.Models.csproj" />
+    <Project Path="src/application/HexArch.Events/HexArch.Events.csproj" />
+    <Project Path="src/application/HexArch.Services/HexArch.Services.csproj" />
+  </Folder>
+  <Folder Name="/driven-adapters/">
+    <Project Path="src/driven-adapters/HexArch.APIDocumentation.Swagger/HexArch.APIDocumentation.Swagger.csproj" />
+    <Project Path="src/driven-adapters/HexArch.Authentication.Jwt/HexArch.Authentication.Jwt.csproj" />
+    <Project Path="src/driven-adapters/HexArch.Authorization/HexArch.Authorization.csproj" />
+    <Project Path="src/driven-adapters/HexArch.EMail/HexArch.EMail.csproj" Id="c43bda36-d590-491a-87ed-697e1dd084b9" />
+    <Project Path="src/driven-adapters/HexArch.EventDispatching/HexArch.EventDispatching.csproj" />
+    <Project Path="src/driven-adapters/HexArch.Messaging.RabbitMQ/HexArch.Messaging.RabbitMQ.csproj" Id="61022f53-0c7e-4894-9294-44588e4f9912" />
+    <Project Path="src/driven-adapters/HexArch.Messaging.RabbitMQ.Transport/HexArch.Messaging.RabbitMQ.Transport.csproj" />
+    <Project Path="src/driven-adapters/HexArch.Persistance.Postgres/HexArch.Persistance.Postgres.csproj" />
+    <Project Path="src/driven-adapters/HexArch.Projections.Postgres/HexArch.Projections.Postgres.csproj" />
+    <Project Path="src/driven-adapters/HexArch.Queries.Postgres/HexArch.Queries.Postgres.csproj" />
+    <Project Path="src/driven-adapters/HexArch.SystemClock/HexArch.SystemClock.csproj" Id="2c058d5e-4161-4b2a-95a8-95ba2044c60f" />
+  </Folder>
+  <Folder Name="/test/">
+    <Project Path="tests/HexArch.Services.Specs/HexArch.Services.Specs.csproj" />
+  </Folder>
+</Solution>
